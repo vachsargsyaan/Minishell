@@ -31,7 +31,7 @@ PACKAGE_TARNAME = readline
 srcdir = .
 
 top_srcdir = .
-BUILD_DIR = /Users/vacsargs/Desktop/Minishell/readline-8.1
+BUILD_DIR = ~/Desktop/Minishell/readline-8.1
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
@@ -48,7 +48,7 @@ MV = mv
 
 SHELL = /bin/sh
 
-prefix = /Users/vacsargs/Desktop/Minishell/vacread
+prefix = ~/Desktop/Minishell/vacread
 exec_prefix = ${prefix}
 
 datarootdir = ${prefix}/share
