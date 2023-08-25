@@ -6,24 +6,29 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:48:21 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/15 14:39:35 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/08/25 16:22:13 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
+	t_init	parser;
 	char	*str;
 
-	printf_minishell();
+	parser = init(argc, argv, env);
 	str = malloc(sizeof(char) * 1024);
-	while (1)
+	if (argc == 1 && argv)
 	{
-		str = readline("minishell$ ");
-		if (!str)
-			break ;
-		printf("%s\n", str);
+		printf_minishell();
+		while (1)
+		{
+			str = readline("minishell$ ");
+			if (!str)
+				break ;
+			lex(&parser, str);
+		} 
 	}
-	// checker_is_there(str);
+	return (0);
 }
