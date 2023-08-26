@@ -8,11 +8,11 @@ OBJ_DIR	= obj
 OBJ 	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 CC		= cc
-HEADER	= $(wildcard includes/*.h) $(wildcard Libft/libft.h)
+HEADER	= $(wildcard includes/*.h) $(wildcard libft/libft.h)
 INCLUDE	= -Iincludes
 CFLAGS	= -Wall -Wextra -Werror
 MK		= mkdir -p
-LFLAGS  =	-lreadline -L./vacread/lib -lft -L./Libft
+LFLAGS  =	-lreadline -L./vacread/lib -lft -L./libft
 IFLAGS  =	-I./vacread/include -ILibft
 
 all: libft $(OBJ_DIR) $(NAME) libft
