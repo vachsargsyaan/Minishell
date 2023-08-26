@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/25 16:12:22 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:18:54 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_token_name
 	SQUOTE,
 	AND,
 	PIPE,
-	VERTICAL_BAR,
+	OR,
 	DOUBLE_LEFT,
 	DOUBLE_RIGHT,
 	GREATHER,
@@ -86,4 +86,6 @@ int			ft_printnum(int fd, int num);
 int			ft_char(int fd, const char *str);
 int			ft_print_char(int fd, int c);
 int			ft_print_point(int fd, unsigned long long lu);
+int			handle_double_right(t_parser **pars, char *str, int i, int count);
+int			pars_error(char *str);
 #endif

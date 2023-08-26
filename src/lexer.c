@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:50:18 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/25 18:13:28 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:34:37 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		handle_vertical_bar(t_parser **pars, char *str, int i, int count)
 		lst_push_back(pars, list_new(ft_substr(str, count, i - count), WORD, 0, 1));
 	else if (!is_space(str, count, i))
 		lst_push_back(pars, list_new(ft_substr(str, count, i - count), WORD, 0, 0));
-	lst_push_back(pars, list_new("||", VERTICAL_BAR, 2, 1));
+	lst_push_back(pars, list_new("||", OR, 2, 1));
 	return(i +2);
 }
 
@@ -65,12 +65,12 @@ void	lexer(t_parser **pars, char *str)
 		{
 			if (str[i] == '&' && str[i + 1] == '&')
 				handle_and(pars, str, i, count);
-			else if (str[i] == '|' && str[i+1] == '|')
+			else if (str[i] == '|' && str[i + 1] == '|')
 				handle_vertical_bar(pars, str, i, count);
-			else if (str[i] == '>' && str[i+1] == '>')
-				handle_space(pars, str, i, count);
-			else if (str[i] == '<' && str[i+1] == '<')
-				handle_space(pars, str, i, count);
+			else if (str[i] == '>' && str[i + 1] == '>')
+				handle_double_right(pars, str, i, count);
+			// else if (str[i] == '<' && str[i + 1] == '<')
+			// 	handle_double_left(pars, str, i, count);
 			else if (str[i] =='(')
 				handle_space(pars, str, i, count);
 			else if (str[i] == '>')

@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:50:05 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/25 16:12:04 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/08/26 14:38:53 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	ft_dprintf(int fd, const char *str, ...)
 t_init	init(int argc, char **argv, char **env)
 {
 	t_init	pars;
-	// char		*filename;
 	
 	(void)argv;
 	(void)env;
