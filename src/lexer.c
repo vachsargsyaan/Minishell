@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:50:18 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/26 16:34:37 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:37:39 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	lexer(t_parser **pars, char *str)
 				handle_vertical_bar(pars, str, i, count);
 			else if (str[i] == '>' && str[i + 1] == '>')
 				handle_double_right(pars, str, i, count);
-			// else if (str[i] == '<' && str[i + 1] == '<')
-			// 	handle_double_left(pars, str, i, count);
+			else if (str[i] == '<' && str[i + 1] == '<')
+				handle_double_left(pars, str, i, count);
 			else if (str[i] =='(')
 				handle_space(pars, str, i, count);
 			else if (str[i] == '>')
