@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/26 16:18:54 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:25:30 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,14 @@ int			ft_char(int fd, const char *str);
 int			ft_print_char(int fd, int c);
 int			ft_print_point(int fd, unsigned long long lu);
 int			handle_double_right(t_parser **pars, char *str, int i, int count);
+void		handle_space(t_parser **pars, char *str, int i, int count);
+int			handle_double_left(t_parser **pars, char *str, int i, int count);
 int			pars_error(char *str);
+int			ft_limit_end(char *str, int i, int start);
+int			check_tayp(t_name type);
+t_name		token_name(char *token);
+int			handle_greather(t_parser **pars, char *str, int i, int count);
+int			handle_less(t_parser **pars, char *str, int i, int count);
+int			handle_pipe(t_parser **pars, char *str, int i, int count);
+
 #endif
