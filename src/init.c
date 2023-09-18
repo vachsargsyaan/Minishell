@@ -6,19 +6,19 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:50:05 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/26 14:38:53 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:21:12 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
- int	check_flag(int fd, const char *s, va_list args)
- {
+int	check_flag(int fd, const char *s, va_list args)
+{
 	int	i;
 
 	i = 0;
 	if (*s == 'c')
-		i += ft_print_char(fd,va_arg(args, int));
+		i += ft_print_char(fd, va_arg(args, int));
 	else if (*s == 's')
 		i += ft_char(fd, va_arg(args, char *));
 	else if (*s == 'p')
@@ -36,7 +36,7 @@
 	}
 	return (i);
 }
- 
+
 char	*printf_strchr(const char *str, int c)
 {
 	char	*buf;
@@ -51,34 +51,36 @@ char	*printf_strchr(const char *str, int c)
 	if (*buf == c)
 		return (buf);
 	else
-		return(NULL);
+		return (NULL);
 }
-char	*on_ft(int fd, char *s, va_list args,int *count)
+
+char	*on_ft(int fd, char *s, va_list args, int *count)
 {
 	if (*s == '%')
 	{
 		s++;
 		while (*s && !printf_strchr(FORMAT_FLAGS, *s)
-				&& !printf_strchr(ESCAPE_SEQ, *s))
+			&& !printf_strchr(ESCAPE_SEQ, *s))
 				s++;
 		if (printf_strchr(FORMAT_FLAGS, *s))
-			*count += check_flag(fd,s, args);
-		else if(printf_strchr(ESCAPE_SEQ, *s))
+			*count += check_flag(fd, s, args);
+		else if (printf_strchr(ESCAPE_SEQ, *s))
 		{
-			write(fd,  s, 1);
+			write (fd, s, 1);
 			(*count)++;
 		}
 		s++;
 	}
 	return (s);
 }
+
 int	ft_dprintf(int fd, const char *str, ...)
 {
 	va_list	args;
 	int		count;
 	char	*tmp;
 	char	*s;
-	
+
 	va_start(args, str);
 	if (!str)
 		return (0);
@@ -98,12 +100,12 @@ int	ft_dprintf(int fd, const char *str, ...)
 	}
 	va_end(args);
 	return (count);
-	
 }
+
 t_init	init(int argc, char **argv, char **env)
 {
 	t_init	pars;
-	
+
 	(void)argv;
 	(void)env;
 	if (argc != 1)
@@ -117,5 +119,5 @@ supported.\n");
 	pars.temp = NULL;
 	pars.path = NULL;
 	pars.flag = -42;
-	return(pars);	
+	return (pars);
 }

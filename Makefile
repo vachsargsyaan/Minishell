@@ -10,7 +10,7 @@ OBJ 	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 CC		= cc
 HEADER	= $(wildcard includes/*.h) $(wildcard Libft/libft.h)
 INCLUDE	= -Iincludes
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
 MK		= mkdir -p
 LFLAGS  =	-lreadline -L./vacread/lib -lft -L./Libft
 IFLAGS  =	-I./vacread/include -ILibft

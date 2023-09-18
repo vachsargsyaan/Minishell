@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:10:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/31 15:31:31 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:54:09 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_tayp(t_name type)
 	else if (type == DOUBLE_LEFT || type == LESS_THAN)
 		return (1);
 	return (0);
-};
+}
 
 char	*token_is(t_name token)
 {
@@ -29,16 +29,16 @@ char	*token_is(t_name token)
 		return ("\"");
 	else if (token == SQUOTE)
 		return ("'");
-	else if (token == LEFT_PARENTHESIS)
+	else if (token == SUBSH_OPEN)
 		return ("(");
-	else if (token == RIGHT_PARENTHESIS)
+	else if (token == SUBSH_CLOSE)
 		return (")");
 	else if (token == OR)
-		return("||");
+		return ("||");
 	else if (token == AND)
-		return("&&");
+		return ("&&");
 	else if (token == PIPE)
-		return("|");
+		return ("|");
 	else if (token == DOUBLE_LEFT)
 		return ("<<");
 	else if (token == DOUBLE_RIGHT)
@@ -48,8 +48,9 @@ char	*token_is(t_name token)
 	else if (token == LESS_THAN)
 		return ("<");
 	else
-		return("newline");
+		return ("newline");
 }
+
 t_name	token_name(char *token)
 {
 	if (token[0] == '"')
@@ -57,9 +58,9 @@ t_name	token_name(char *token)
 	else if (token[0] == '\'')
 		return (SQUOTE);
 	else if (token[0] == '(')
-		return (LEFT_PARENTHESIS);
+		return (SUBSH_OPEN);
 	else if (token[0] == ')')
-		return (RIGHT_PARENTHESIS);
+		return (SUBSH_CLOSE);
 	else if (token[0] == '|' && token[1] == '|')
 		return (OR);
 	else if (token[0] == '&' && token[1] == '&')
@@ -78,6 +79,7 @@ t_name	token_name(char *token)
 		return (END);
 	return (WORD);
 }
+
 int	ft_limit_end(char *str, int i, int start)
 {
 	int	end;
@@ -96,9 +98,9 @@ int	ft_limit_end(char *str, int i, int start)
 	if (end == start)
 	{
 		if (str[i] == '\0')
-			return (pars_error("newline"));
+			return (pars_error("newline", 0));
 		else
-			return (pars_error(token_is(token_name(str + start))));
+			return (pars_error(token_is(token_name(str + start)), 0));
 	}
 	return (end);
 }

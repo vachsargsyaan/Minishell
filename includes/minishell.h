@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/31 16:25:30 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:18:24 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ typedef enum e_token_name
 	DOUBLE_RIGHT,
 	GREATHER,
 	LESS_THAN,
-	LEFT_PARENTHESIS,
-	RIGHT_PARENTHESIS,
+	SUBSH_OPEN,
+	SUBSH_CLOSE,
 	INPUT,
 	END,
 }t_name;
@@ -74,27 +74,34 @@ typedef struct s_init
 
 void		printf_minishell(void);
 t_init		init(int argc, char **argv, char **env);
-void		lex(t_init *init, char *str);
-void		lexer(t_parser **pars, char *str);
+void		lex(t_init *init, char *str,char **env);
+int			lexer(t_parser **pars, char *str);
 int			is_space(char *str, int i, int j);
 t_parser	*list_new(char *content, t_name type, int prec, int flag);
+int			ft_dprintf(int fd, const char *str, ...);
 void		lst_push_back(t_parser **stack, t_parser *a);
-int			is_delitimer(t_parser *pars);
+int			is_delimiter(t_parser *pars);
 int			ft_print_hex(int fd, unsigned long long nb, const char format);
 int			ft_it(int fd, unsigned int num);
 int			ft_printnum(int fd, int num);
 int			ft_char(int fd, const char *str);
 int			ft_print_char(int fd, int c);
 int			ft_print_point(int fd, unsigned long long lu);
-int			handle_double_right(t_parser **pars, char *str, int i, int count);
+int			handle_double_right(t_parser **pars, char *str, int *i, int count);
 void		handle_space(t_parser **pars, char *str, int i, int count);
-int			handle_double_left(t_parser **pars, char *str, int i, int count);
-int			pars_error(char *str);
+int			handle_double_left(t_parser **pars, char *str, int *i, int count);
+int			pars_error(char *str, int i);
 int			ft_limit_end(char *str, int i, int start);
 int			check_tayp(t_name type);
 t_name		token_name(char *token);
-int			handle_greather(t_parser **pars, char *str, int i, int count);
-int			handle_less(t_parser **pars, char *str, int i, int count);
-int			handle_pipe(t_parser **pars, char *str, int i, int count);
+int			handle_greather(t_parser **pars, char *str, int *i, int count);
+int			handle_less(t_parser **pars, char *str, int *i, int count);
+int			handle_pipe(t_parser **pars, char *str, int *i, int count);
+int			handle_sub(t_parser **pars, char *str, int i, int count);
+int 		handle_clprnth(t_parser **pars, char *str, int i, int count);
+int			handle_dquotes(t_parser **pars, char *str, int *i, int count);
+int			handle_squotes(t_parser **pars, char *str, int *i, int count);
+void		destroy_init(t_init *init);
+int			handle_quotes(t_parser **pars, char *str, int *i, int counter);
 
 #endif

@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 15:48:21 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/18 16:18:06 by vacsargs         ###   ########.fr       */
+/*   Created: 2023/09/04 16:48:58 by vacsargs          #+#    #+#             */
+/*   Updated: 2023/09/15 16:51:01 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+void	destroy_init(t_init *init)
 {
-	t_init	parser;
-	char	*str;
+	t_parser	*tmp;
+	t_parser	*stack;
 
-	if (argc == 1 && argv)
+	stack = init->lex;
+	while (stack != NULL)
 	{
-		printf_minishell();
-		while (1)
-		{
-			parser = init(argc, argv, env);
-			str = readline("minishell$ ");
-			if (!str)
-				break ;
-			lex(&parser, str,env);
-			destroy_init(&parser);
-			add_history(str);
-			free(str);
-		}
+		printf("%s\n", stack->cmd);
+		tmp = stack->next;
+		free(stack->cmd);
+		free(stack);
+		stack = tmp;
 	}
-	return (0);
 }
