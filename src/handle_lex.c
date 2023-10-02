@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 16:31:11 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/15 18:02:51 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:23:50 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ void	handle_space(t_parser **pars, char *str, int i, int count)
 		free(res);
 }
 
-int	handle_double_left(t_parser **pars, char *str, int *i, int count)
+int	handle_heredoc(t_parser **pars, char *str, int *i, int count)
 {
 	handle_space(pars, str, *i, count);
 	if (is_delimiter(*pars))
 		lst_push_back(pars, list_new("(NULL)", WORD, 0, 1));
-	lst_push_back(pars, list_new("<<", DOUBLE_LEFT, 4, 1));
-	return(*i+1);
+	lst_push_back(pars, list_new("<<", HEREDOC, 4, 1));
+	return (*i + 1);
 }

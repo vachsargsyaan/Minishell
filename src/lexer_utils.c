@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 16:23:26 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/18 15:35:21 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:47:55 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int	pars_error(char *str, int i)
 {
 	if (str[0] == '(')
-		ft_dprintf(STDERR_FILENO,"syntax error missing token `%s'\n", ")");
+		ft_dprintf(STDERR_FILENO, "syntax error missing token `%s'\n", ")");
 	else
-		ft_dprintf(STDERR_FILENO,"syntax error near unexpected token `%s\n", str);
+		ft_dprintf(STDERR_FILENO,
+			"syntax error near unexpected token `%s\n", str);
 	return (i);
 }
 
@@ -52,7 +53,7 @@ int	is_delimiter(t_parser *pars)
 	if (!root)
 		return (2);
 	root = lst_last_token(root);
-	if (root->tayp == PIPE || root->tayp == DOUBLE_LEFT || root->tayp == INPUT)
+	if (root->tayp == PIPE || root->tayp == HEREDOC || root->tayp == INPUT)
 		return (1);
 	else if (root->tayp == AND || root->tayp == OR)
 		return (1);

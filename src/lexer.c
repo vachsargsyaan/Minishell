@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:50:18 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/18 16:18:59 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/09/30 19:06:26 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,38 +27,39 @@ int	handle_and(t_parser **pars, char *str, int *i, int count)
 		return (pars_error("&&", *i + 1));
 	handle_space(pars, str, *i, count);
 	lst_push_back(pars, list_new("&&", AND, 2, 1));
-	return (*i+1);
+	return (*i + 1);
 }
 
-int lexer2(t_parser **pars, char *str, int *i, int counter)
+int	lexer2(t_parser **pars, char *str, int *i, int counter)
 {
-		if (str[*i] == ')')
-			*i = handle_sub(pars, str, *i, counter);
-		else if (str[*i] == '(')
-			*i = handle_clprnth(pars, str, *i, counter);
-		else if (str[*i] == '&' && str[*i + 1] == '&')
-			*i = handle_and(pars, str, i, counter);
-		else if (str[*i] == '|' && str[*i + 1] == '|')
-			*i = handle_or(pars, str, i, counter);
-		else if (str[*i] == '>' && str[*i + 1] == '>')
-			*i = handle_double_right(pars, str, i, counter);
-		else if (str[*i] == '<' && str[*i + 1] == '<')
-			*i = handle_double_left(pars, str, i, counter);
-		else if (str[*i] == '>')
-			*i = handle_greather(pars, str, i, counter);
-		else if (str[*i] == '<')
-			*i = handle_less(pars, str, i, counter);
-		else if (str[*i] == '|')
-			*i = handle_pipe(pars, str, i, counter);
-		else if (ft_strchr(" \n\t\v\r\f", str[*i]))
-			handle_space(pars, str, *i, counter);
-		else if (str[*i + 1] == '\0')
-			handle_space(pars, str, *i + 1, counter);
-		else
-			return (0);
-		return (1);
+	if (str[*i] == ')')
+		*i = handle_sub(pars, str, *i, counter);
+	else if (str[*i] == '(')
+		*i = handle_clprnth(pars, str, *i, counter);
+	else if (str[*i] == '&' && str[*i + 1] == '&')
+		*i = handle_and(pars, str, i, counter);
+	else if (str[*i] == '|' && str[*i + 1] == '|')
+		*i = handle_or(pars, str, i, counter);
+	else if (str[*i] == '>' && str[*i + 1] == '>')
+		*i = handle_double_right(pars, str, i, counter);
+	else if (str[*i] == '<' && str[*i + 1] == '<')
+		*i = handle_heredoc(pars, str, i, counter);
+	else if (str[*i] == '>')
+		*i = handle_greather(pars, str, i, counter);
+	else if (str[*i] == '<')
+		*i = handle_less(pars, str, i, counter);
+	else if (str[*i] == '|')
+		*i = handle_pipe(pars, str, i, counter);
+	else if (ft_strchr(" \n\t\v\r\f", str[*i]))
+		handle_space(pars, str, *i, counter);
+	else if (str[*i + 1] == '\0')
+		handle_space(pars, str, *i + 1, counter);
+	else
+		return (0);
+	return (1);
 }
-int lexer1(t_parser **pars, char *str, int *i, int counter)
+
+int	lexer1(t_parser **pars, char *str, int *i, int counter)
 {
 	int	key;
 
@@ -79,6 +80,7 @@ int lexer1(t_parser **pars, char *str, int *i, int counter)
 	}
 	return (0);
 }
+
 int	lexer(t_parser **pars, char *str)
 {
 	int	i;
@@ -96,9 +98,17 @@ int	lexer(t_parser **pars, char *str)
 	return (1);
 }
 
-void	lex(t_init *init, char *str, char **env)
+void	lex(t_init *init, char *str, t_env *env)
 {
-	(void)(env);
-	if (lexer(&(init->lex), str))
-		printf("esim\n");
+	(void)env;
+	g_exit_status_ = 0;
+	if (!lexer(&(init->lex), str) || !init->lex)
+	{
+		destroy_init(init);
+		init->exit_status = 258;
+		return ;
+	}
+	if (heredoc_valid(init, init->lex))
+		exit (2);
+	parser(init);
 }

@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:29:36 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/15 17:53:29 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:47:59 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_squotes(t_parser **pars, char *str, int *i, int count)
 
 	handle_space(pars, str, *i, count);
 	p = *i + 1;
-	while (str[p] && str[p] != '"')
+	while (str[p] && str[p] != '\'')
 		p++;
 	a = ft_substr(str, *i + 1, p - *i - 1);
 	if (str[p] == '\'' && is_delimiter(*pars))
@@ -60,24 +60,26 @@ int	handle_squotes(t_parser **pars, char *str, int *i, int count)
 	else
 	{
 		free(a);
-		return(pars_error("'", 0));
+		return (pars_error("'", 0));
 	}
 	free(a);
+	*i = p;
 	return (p);
 }
+
 int	handle_quotes(t_parser **pars, char *str, int *i, int counter)
 {
 	int	status;
 
 	if (str[*i] == '\'')
 	{
-		status = handle_squotes(pars,str,i,counter);
+		status = handle_squotes(pars, str, i, counter);
 		if (status < 0)
 			return (status);
 	}
 	if (str[*i] == '\"')
 	{
-		status = handle_dquotes(pars,str,i,counter);
+		status = handle_dquotes(pars, str, i, counter);
 		if (status < 0)
 			return (status);
 	}

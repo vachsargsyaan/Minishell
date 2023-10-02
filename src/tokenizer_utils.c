@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:10:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/15 17:54:09 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:47:55 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	check_tayp(t_name type)
 {
 	if (type == OR || type == AND || type == PIPE)
 		return (1);
-	else if (type == GREATHER || type == DOUBLE_RIGHT)
+	else if (type == HEREDOC || type == DOUBLE_RIGHT)
 		return (1);
-	else if (type == DOUBLE_LEFT || type == LESS_THAN)
-		return (1);
+	else if (type == GREATHER || type == LESS_THAN)
+		return (2);
 	return (0);
 }
 
@@ -39,7 +39,7 @@ char	*token_is(t_name token)
 		return ("&&");
 	else if (token == PIPE)
 		return ("|");
-	else if (token == DOUBLE_LEFT)
+	else if (token == HEREDOC)
 		return ("<<");
 	else if (token == DOUBLE_RIGHT)
 		return (">>");
@@ -68,7 +68,7 @@ t_name	token_name(char *token)
 	else if (token[0] == '|')
 		return (PIPE);
 	else if (token[0] == '<' && token[1] == '<')
-		return (DOUBLE_LEFT);
+		return (HEREDOC);
 	else if (token[0] == '>' && token[1] == '>')
 		return (DOUBLE_RIGHT);
 	else if (token[0] == '>')
@@ -103,4 +103,20 @@ int	ft_limit_end(char *str, int i, int start)
 			return (pars_error(token_is(token_name(str + start)), 0));
 	}
 	return (end);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int		i;
+
+	i = 0;
+	if (!s1 && !s2)
+		return (0);
+	while (s1[i] == s2[i])
+	{
+		if (s1[i] == '\0' && s2[i] == '\0')
+			return (0);
+		i++;
+	}
+	return (s1[i] - s2[i]);
 }
