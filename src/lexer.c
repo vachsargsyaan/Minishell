@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:50:18 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/30 19:06:26 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/10/08 16:15:05 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,15 @@ int	lexer(t_parser **pars, char *str)
 
 void	lex(t_init *init, char *str, t_env *env)
 {
-	(void)env;
+	int	sb;
+
+	sb = 0;
 	g_exit_status_ = 0;
-	if (!lexer(&(init->lex), str) || !init->lex)
+	if (!lexer(&(init->lex), str) ||!check_valid(init, env, &sb, 0) || \
+		!check_valid(init, env, &sb, 1) || sb > 0 || !init->lex)
 	{
+		if (sb > 0)
+			dprintf(2, "minishell: syntax error: missing token `)'\n");
 		destroy_init(init);
 		init->exit_status = 258;
 		return ;

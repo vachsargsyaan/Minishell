@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/26 17:23:01 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/10/08 16:21:56 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <sys/time.h>
+# include <sys/ioctl.h>
+# include <signal.h>
+# include <unistd.h>
 # include <time.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -31,6 +34,12 @@
 # define OCTAL			"01234567"
 # define B_HEX			"0123456789ABCDEF"
 # define L_HEX			"0123456789abcdef"
+
+typedef struct s_hd
+{
+	char	**matrix;
+	int		i;
+}t_hd;
 
 typedef struct s_env
 {
@@ -80,13 +89,14 @@ typedef struct s_init
 	t_parser	*pars;
 	t_parser	*lex;
 	t_parser	*temp;
+	t_hd		*hd;
 	int			hdoc;
 	int			flag;
 }				t_init;
 
 void		printf_minishell(void);
 t_init		init(int argc, char **argv, char **env);
-void		lex(t_init *init, char *str,  t_env *env);
+void		lex(t_init *init, char *str, t_env *env);
 int			lexer(t_parser **pars, char *str);
 int			is_space(char *str, int i, int j);
 t_parser	*list_new(char *content, t_name type, int prec, int flag);
@@ -115,13 +125,15 @@ int			handle_dquotes(t_parser **pars, char *str, int *i, int count);
 int			handle_squotes(t_parser **pars, char *str, int *i, int count);
 void		destroy_init(t_init *init);
 int			handle_quotes(t_parser **pars, char *str, int *i, int counter);
-int			check_valid(t_init *init);
 int			ft_strcmp(char *s1, char *s2);
 int			heredoc_valid(t_init *init, t_parser *stack);
 void		parser(t_init *init);
 t_env		*push_back(t_env **list, t_env *new);
 t_env		*malloc_list(char *env);
 t_env		*env_init(char **env, t_env *my_env);
-int						g_exit_status_;
+char		*type_is(t_name type);
+void		call_signals(int sig);
+int			check_valid(t_init *init, t_env *env, int *sb, int fl);
+int			g_exit_status_;
 
 #endif

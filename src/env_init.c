@@ -6,11 +6,32 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:04:16 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/26 17:18:25 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/10/08 16:17:13 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	init_hd(t_hd **hd)
+{
+	int		i;
+	char	*str;
+	
+	i = 0;
+	if (*hd)
+		return ;
+	(*hd) = (t_hd *)malloc(sizeof(t_hd));
+	(*hd)->i = -1;
+	(*hd)->matrix = (char **)malloc(sizeof(char *) * 16);
+	while (i < 16)
+	{
+		(*hd)->matrix[i] = ft_strdup(".heredoc");
+		str = ft_itoa(i);
+		(*hd)->matrix[i] = ft_strjoin((*hd)->matrix[i], str, 1);
+		free(str);
+		i++;
+	}
+}
 
 t_env	*push_back(t_env **list, t_env *new)
 {

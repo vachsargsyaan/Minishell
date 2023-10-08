@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:48:21 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/30 19:04:47 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:16:15 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ int	main(int argc, char **argv, char **env)
 	t_init	parser;
 	char	*str;
 	t_env	*my_env;
-	
+
 	my_env = NULL;
 	if (argc == 1 && argv)
 	{
 		printf_minishell();
 		while (1)
 		{
+			call_signals(1);
 			parser = init(argc, argv, env);
 			my_env = env_init(env, my_env);
 			str = readline("minishell$ ");
