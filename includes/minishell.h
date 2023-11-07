@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/10/08 16:21:56 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:20:12 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,23 @@ typedef enum e_token_name
 typedef struct s_parser
 {
 	char			*cmd;
+	char			*exit_tmp;
+	char			*hdoc_fname;
 	int				flag;
 	t_name			tayp;
 	int				error_cod;
 	int				prc;
+	int				err_code;
+	int				sub;
+	int				last_red;
+	int				last_hdoc;
+	int				last_input;
+	int				_stdin_;
+	int				_stdout_;
+	int				stdin_backup;
+	int				stdout_backup;
+	int				fd;
+	int				pipes[2];
 	struct s_parser	*next;
 	struct s_parser	*prev;
 	struct s_parser	*right;
@@ -134,6 +147,7 @@ t_env		*env_init(char **env, t_env *my_env);
 char		*type_is(t_name type);
 void		call_signals(int sig);
 int			check_valid(t_init *init, t_env *env, int *sb, int fl);
+void		find_limiter(t_init *main, t_parser *stack);
 int			g_exit_status_;
 
 #endif

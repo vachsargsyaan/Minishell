@@ -6,15 +6,26 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:46:17 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/10/08 18:06:33 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:20:25 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pop_redir(t_tok *tok)
+void	push_redir(t_parser *to, t_parser *from)
 {
-	t_tok	*tmp;
+	from->prev->next = from->next;
+	from->next->prev = from->prev;
+	from->next = to->next;
+	to->next = from;
+	from->prev = to;
+	if (from->flag & (1 << 2))
+		from->flag -= (1 << 2);
+}
+
+void	pop_redir(t_parser *tok)
+{
+	t_parser	*tmp;
 
 	tmp = tok;
 	if (tok->prev)
@@ -39,12 +50,41 @@ void	find_limiter(t_init *main, t_parser *stack)
 
 	tmp = stack->next;
 	cmd_l = stack->prev->prev;
-	while (tmp && tmp->cmd && (tmp->type == WORD || tmp->type == SQUOTE \
-		|| tmp->type == DQUOTE) && !(tmp->flag & 1 << 1))
+	while (tmp && tmp->cmd && (tmp->tayp == WORD || tmp->tayp == SQUOTE \
+		|| tmp->tayp == DQUOTE) && !(tmp->flag & 1 << 1))
 	{
 		stack->cmd = ft_strjoin(stack->cmd, tmp->cmd, 1);
 		tmp = tmp->next;
 		pop_redir(tmp->prev);
 	}
-	
+	while (cmd_l->prev && check_tayp(cmd_l->prev->tayp) == 2)
+		cmd_l = cmd_l->prev->prev;
+	if (!ft_strcmp(cmd_l->cmd, "(NULL)") && tmp->cmd && \
+	(tmp->tayp != WORD && tmp->tayp != SQUOTE && tmp->tayp != DQUOTE))
+		return ;
+	if (tmp && tmp->cmd && (tmp->tayp == WORD || tmp->tayp == SQUOTE || tmp->tayp == DQUOTE))
+	{
+		while (tmp && tmp->next && (tmp->tayp == WORD || tmp->tayp == SQUOTE || \
+			tmp->tayp == DQUOTE) && tmp->next->tayp != END && \
+			check_tayp(tmp->next->tayp) <= 0 && tmp->next->tayp != SUBSH_CLOSE)
+						tmp = tmp->next;
+		while ((tmp->tayp == WORD || tmp->tayp == SQUOTE || \
+						tmp->tayp == DQUOTE) && tmp->prev && \
+			check_tayp(tmp->prev->tayp) != 2 && tmp->prev->tayp != SUBSH_OPEN)
+		{
+			tmp = tmp->prev;
+			push_redir(cmd_l, tmp->next);
+		}
+	}
+	if (!ft_strcmp(cmd_l->cmd, "(NULL)") && !cmd_l->prev)
+	{
+		main->lex = main->lex->next;
+		main->lex->flag |= 1;
+		pop_redir(cmd_l);
+	}
+}
+
+int	 read_heredoc_input(t_init *main,t_parser *stack, char *line, t_env *env)
+{
+	char	
 }
