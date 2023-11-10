@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:46:17 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/06 16:20:25 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/10 20:56:28 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	pop_redir(t_parser *tok)
 	free(tmp->cmd);
 	free(tmp);
 }
+
 void	find_limiter(t_init *main, t_parser *stack)
 {
 	t_parser	*tmp;
@@ -84,7 +85,42 @@ void	find_limiter(t_init *main, t_parser *stack)
 	}
 }
 
-int	 read_heredoc_input(t_init *main,t_parser *stack, char *line, t_env *env)
+int	read_heredoc_input(t_init *main , t_parser *stack, char *line, t_env *env)
 {
-	char	
+	char	*res;
+
+	(void)env;
+	res = NULL;
+	stack->hdoc_fname = ft_strdup(main->hd->matrix[++main->hd->i]);
+	stack->fd = open(stack->hdoc_fname, O_RDWR | O_CREAT | O_TRUNC, 0655);
+	find_limiter(main, stack->next);
+	call_signals(4);
+	while (1)
+	{
+		if (g_exit_status_ == 130)
+		{
+			free(res);
+			return (130);
+		}
+		if (!read_heredoc_input2(line, &res, stack->next->cmd))
+			break ;
+	}
+	// write_in_fd(&res,stack->fd, env);
+	return (0);
+}
+
+int	read_heredoc_input2(char *line, char **res, char *limiter)
+{
+	line = readline("> ");
+	if (!line || strcmp(line, limiter) == 0)
+	{
+		free(line);
+		return (0);
+	}
+	if (!(*res))
+		(*res) = ft_strdup(line);
+	else
+		(*res) = strjoin_mode((*res), line, 1);
+	free(line);
+	return (1);
 }

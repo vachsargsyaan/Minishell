@@ -6,49 +6,37 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:00:07 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/10/08 16:23:24 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/10 20:49:24 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	parser_init(t_parser *lex, t_init *init)
-// {
-// 	int 		i;
-// 	t_parser *tmp;
-	
-// 	i = 0;
-// 	tmp = lex;
-// 	while (1)
-// 	{
-// 		if (i == 0 && tmp->tayp == HEREDOC)
-// 			lst_push_back(&(init->pars),list_new("<<", HEREDOC, tmp->prc, tmp->flag));
-// 		else if (i == 1 && tmp->tayp == DOUBLE_RIGHT)
-// 			lst_push_back(&(init->pars),list_new(">>", DOUBLE_RIGHT, tmp->prc, tmp->flag));
-// 		else if (i == 1 && tmp->tayp == GREATHER)
-// 			lst_push_back(&(init->pars),list_new(">", GREATHER, tmp->prc, tmp->flag));
-// 		else if (i == 1 && tmp->tayp == LESS_THAN)
-// 			lst_push_back(&(init->pars),list_new("<", LESS_THAN,tmp->prc, tmp->flag));
-// 		else if (i == 2 && tmp->tayp == PIPE)
-// 			lst_push_back(&(init->pars),list_new("|",  PIPE, tmp->prc, tmp->flag));
-// 		else if (i == 3 && tmp->tayp == WORD  )
-// 			lst_push_back(&(init->pars),list_new(tmp->cmd, WORD, tmp->prc, tmp->flag));
-// 		if (tmp->next == NULL)
-// 		{
-// 			i++;
-// 			tmp = lex;
-// 		}
-// 		tmp = tmp->next;
-// 		if (i == 4)
-// 			break;
-// 	}
-// 	i = 0;
-// 	while (init->pars != NULL)
-// 	{
-// 		printf("%s ", init->pars->cmd);
-// 		init->pars = init->pars->next;
-// 	}
-// }
+void	shunting_yard(t_parser **p, t_parser **ops, t_parser **otp)
+{
+	if ((*p)->prc == 0)
+		lst_push_back(otp, ast_branch(*p));
+	else if ((*p)->prc > 0)
+	{
+		if ((*p)->tayp == SUBSH_CLOSE)
+		{
+			while (*ops && lstlast(*ops)->tayp != SUBSH_OPEN)
+				push(ops, otp);
+			lstlast(*otp)->sub = 1;
+			pop(ops);
+		}
+		else if ((*p)->tayp != SUBSH_OPEN)
+		{
+			while (*ops && lstlast(*ops)->prc >= (*p)->prc \
+				&& lstlast(*ops)->tayp != SUBSH_OPEN)
+				push(ops, otp);
+			lst_push_back(ops, ast_branch(*p));
+		}
+		else
+			lst_push_back(ops, ast_branch(*p));
+	}
+}
+
 void	parser(t_init *init)
 {
 	t_parser	*tmp;
@@ -58,4 +46,14 @@ void	parser(t_init *init)
 	postfix = NULL;
 	opstack = NULL;
 	tmp = init->lex;
+	while (tmp)
+	{
+		shunting_yard(&tmp, &postfix, &opstack);
+		tmp = tmp->next;
+	}
+	while (opstack != NULL)
+	{
+		printf("%s\n", opstack->cmd);
+		opstack = opstack->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/06 16:20:12 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/10 20:39:56 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 # include <time.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/ioctl.h>
+# include <dirent.h>
+# include <stdbool.h>
+# include <fcntl.h>
 # include "libft.h"
 
 # define OFFSET			'0'
@@ -40,6 +44,14 @@ typedef struct s_hd
 	char	**matrix;
 	int		i;
 }t_hd;
+
+typedef struct s_exp
+{
+	int		i;
+	int		l;
+	char	*str;
+	char	*s;
+}			t_exp;
 
 typedef struct s_env
 {
@@ -108,6 +120,7 @@ typedef struct s_init
 }				t_init;
 
 void		printf_minishell(void);
+void		init_hd(t_hd **hd);
 t_init		init(int argc, char **argv, char **env);
 void		lex(t_init *init, char *str, t_env *env);
 int			lexer(t_parser **pars, char *str);
@@ -122,7 +135,7 @@ int			ft_printnum(int fd, int num);
 int			ft_char(int fd, const char *str);
 int			ft_print_char(int fd, int c);
 int			ft_print_point(int fd, unsigned long long lu);
-int			handle_double_right(t_parser **pars, char *str, int *i, int count);
+int			handle_double_right(t_parser **pars, char *str, int i, int count);
 void		handle_space(t_parser **pars, char *str, int i, int count);
 int			handle_heredoc(t_parser **pars, char *str, int *i, int count);
 int			pars_error(char *str, int i);
@@ -148,6 +161,15 @@ char		*type_is(t_name type);
 void		call_signals(int sig);
 int			check_valid(t_init *init, t_env *env, int *sb, int fl);
 void		find_limiter(t_init *main, t_parser *stack);
+int			read_heredoc_input(t_init *main, t_parser *stack,
+				char *line, t_env *env);
+int			read_heredoc_input2(char *line, char **res, char *limiter);
+char		*strjoin_mode(char *s1, char *s2, int mode);
+t_parser	*ast_branch(t_parser *tok);
+t_parser	*lstlast(t_parser *lst);
+void		pop(t_parser **stack);
+void		push(t_parser **a, t_parser **b);
+
 int			g_exit_status_;
 
 #endif

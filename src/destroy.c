@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:48:58 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/30 19:08:32 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/10 20:51:18 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	destroy_init(t_init *init)
 	stack = init->lex;
 	while (stack != NULL)
 	{
-		// printf("%s\n", stack->cmd);
 		tmp = stack->next;
 		free(stack->cmd);
 		free(stack);

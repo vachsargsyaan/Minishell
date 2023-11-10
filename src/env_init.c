@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:04:16 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/10/08 16:17:13 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/10 20:51:27 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	init_hd(t_hd **hd)
 {
 	int		i;
 	char	*str;
-	
+
 	i = 0;
 	if (*hd)
 		return ;

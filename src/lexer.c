@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:50:18 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/10/08 16:15:05 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:47:37 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	lexer2(t_parser **pars, char *str, int *i, int counter)
 	else if (str[*i] == '|' && str[*i + 1] == '|')
 		*i = handle_or(pars, str, i, counter);
 	else if (str[*i] == '>' && str[*i + 1] == '>')
-		*i = handle_double_right(pars, str, i, counter);
+		*i = handle_double_right(pars, str, *i, counter);
 	else if (str[*i] == '<' && str[*i + 1] == '<')
 		*i = handle_heredoc(pars, str, i, counter);
 	else if (str[*i] == '>')
@@ -109,7 +109,6 @@ void	lex(t_init *init, char *str, t_env *env)
 	{
 		if (sb > 0)
 			dprintf(2, "minishell: syntax error: missing token `)'\n");
-		destroy_init(init);
 		init->exit_status = 258;
 		return ;
 	}

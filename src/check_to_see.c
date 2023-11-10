@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:27:47 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/22 18:47:55 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/10 20:51:07 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,31 @@ void	lst_push_back(t_parser **stack, t_parser *a)
 
 t_parser	*list_new(char *content, t_name type, int prec, int flag)
 {
-	t_parser	*a;
+	t_parser		*elt;
 
-	(void)content;
-	a = (t_parser *)malloc(sizeof(t_parser));
-	if (!a)
+	elt = (t_parser *)malloc(sizeof(t_parser));
+	if (!elt)
 		return (NULL);
-	a->cmd = ft_strdup(content);
-	a->tayp = type;
-	a->prc = prec;
-	a->flag = flag;
-	a->error_cod = 0;
-	a->next = NULL;
-	a->prev = NULL;
-	a->right = NULL;
-	a->left = NULL;
-	return (a);
+	elt->prc = prec;
+	elt->flag = flag;
+	elt->tayp = type;
+	elt->err_code = 0;
+	elt->last_red = -1;
+	elt->last_hdoc = 0;
+	elt->last_input = -1;
+	elt->sub = 0;
+	elt->fd = -42;
+	elt->_stdin_ = -42;
+	elt->_stdout_ = -42;
+	elt->stdin_backup = -42;
+	elt->stdout_backup = -42;
+	elt->left = NULL;
+	elt->next = NULL;
+	elt->prev = NULL;
+	elt->right = NULL;
+	elt->hdoc_fname = NULL;
+	elt->cmd = ft_strdup(content);
+	return (elt);
 }
 
 int	heredoc_valid(t_init *init, t_parser *stack)

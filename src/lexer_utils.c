@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 16:23:26 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/09/22 18:47:55 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:16:28 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,11 @@ int	is_delimiter(t_parser *pars)
 		return (0);
 }
 
-int	handle_double_right(t_parser **pars, char *str, int *i, int count)
+int	handle_double_right(t_parser **pars, char *str, int i, int count)
 {
-	int	p;
-
-	if (!is_space(str, count, *i) && is_delimiter(*pars))
-		lst_push_back(pars, list_new(ft_substr
-				(str, count, *i - count), WORD, 0, 1));
-	else if (!is_space(str, count, *i))
-		lst_push_back(pars, list_new(ft_substr
-				(str, count, *i - count), WORD, 0, 0));
-	else if (is_delimiter(*pars))
-		lst_push_back(pars, list_new("(NULL)", WORD, 0, 0));
+	handle_space(pars, str, i, count);
+	if (is_delimiter(*pars) && is_delimiter(*pars) != 3)
+		lst_push_back(pars, list_new("(NULL)", WORD, 0, 1));
 	lst_push_back(pars, list_new(">>", DOUBLE_RIGHT, 4, 1));
-	p = 1;
-	while ((int)ft_strlen(str) >= *i + p && str[*i + ++p])
-	{
-		if (str[*i + p] != ' ')
-			return (*i + 1);
-	}
-	return (pars_error("newline", *i +1));
+	return (i + 1);
 }

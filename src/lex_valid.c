@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:45:31 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/01 17:06:21 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/10 20:50:16 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,13 @@ int	check_valid(t_init *init, t_env *env, int *sb, int fl)
 {
 	t_parser	*tmp;
 
-	(void)env;
-	(void)fl;
 	tmp = init->lex;
 	while (tmp->next != NULL)
 	{
 		if (!subshell_validation(tmp, sb))
 			return (0);
 		if (check_tayp(tmp->tayp) == 2 && !ft_strcmp(tmp->next->cmd, "*"))
-			return(dprintf(2, "Minishell: *: ambiguous redirect\n"), 0);
+			return (dprintf(2, "Minishell: *: ambiguous redirect\n"), 0);
 		if (check_tayp(tmp->tayp) && check_tayp(tmp->next->tayp) == 1)
 			return (pars_error(type_is(tmp->next->tayp), 0));
 		if (check_tayp(tmp->tayp) == 1 && tmp->prev == NULL)
