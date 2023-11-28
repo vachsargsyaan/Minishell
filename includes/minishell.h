@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 20:39:56 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/11 15:04:07 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ typedef struct s_init
 void		printf_minishell(void);
 void		init_hd(t_hd **hd);
 t_init		init(int argc, char **argv, char **env);
-void		lex(t_init *init, char *str, t_env *env);
-int			lexer(t_parser **pars, char *str);
+void		lex(t_init *init, char **str, t_env *env);
+int			lexer(t_parser **pars, char **str);
 int			is_space(char *str, int i, int j);
 t_parser	*list_new(char *content, t_name type, int prec, int flag);
 int			ft_dprintf(int fd, const char *str, ...);
@@ -135,6 +135,7 @@ int			ft_printnum(int fd, int num);
 int			ft_char(int fd, const char *str);
 int			ft_print_char(int fd, int c);
 int			ft_print_point(int fd, unsigned long long lu);
+int			handle_or(t_parser **pars, char *str, int *i, int count);
 int			handle_double_right(t_parser **pars, char *str, int i, int count);
 void		handle_space(t_parser **pars, char *str, int i, int count);
 int			handle_heredoc(t_parser **pars, char *str, int *i, int count);
@@ -147,10 +148,10 @@ int			handle_less(t_parser **pars, char *str, int *i, int count);
 int			handle_pipe(t_parser **pars, char *str, int *i, int count);
 int			handle_sub(t_parser **pars, char *str, int i, int count);
 int			handle_clprnth(t_parser **pars, char *str, int i, int count);
-int			handle_dquotes(t_parser **pars, char *str, int *i, int count);
-int			handle_squotes(t_parser **pars, char *str, int *i, int count);
+int			handle_dquotes(t_parser **pars, char **str, int *i, int count);
+int			handle_squotes(t_parser **pars, char **str, int *i, int count);
 void		destroy_init(t_init *init);
-int			handle_quotes(t_parser **pars, char *str, int *i, int counter);
+char		*handle_quotes(t_parser **pars, char **str, int *i, int counter);
 int			ft_strcmp(char *s1, char *s2);
 int			heredoc_valid(t_init *init, t_parser *stack);
 void		parser(t_init *init);

@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:00:07 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 20:49:24 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/11 13:44:04 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	parser(t_init *init)
 		shunting_yard(&tmp, &postfix, &opstack);
 		tmp = tmp->next;
 	}
+	while (postfix)
+		push(&postfix, &opstack);
 	while (opstack != NULL)
 	{
 		printf("%s\n", opstack->cmd);

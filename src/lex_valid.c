@@ -6,11 +6,20 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:45:31 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 20:50:16 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/11 15:17:01 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	handle_or(t_parser **pars, char *str, int *i, int count)
+{
+	handle_space(pars, str, *i, count);
+	if (!(*pars))
+		return (pars_error("||", 0) - 42);
+	lst_push_back(pars, list_new("||", OR, 2, 1));
+	return (*i + 1);
+}
 
 int	subshell_validation(t_parser *tmp, int *sb)
 {
@@ -18,16 +27,18 @@ int	subshell_validation(t_parser *tmp, int *sb)
 		(*sb)++;
 	else if (tmp->tayp == SUBSH_CLOSE)
 		(*sb)--;
-	if (tmp->tayp == SUBSH_CLOSE && (!tmp->prev || tmp->next->tayp == SUBSH_OPEN || (*sb) < 0))
-		return (pars_error(")", 0 + (*sb == 0)));
-	if (tmp->tayp == SUBSH_CLOSE && (tmp->next->tayp == WORD || tmp->next->tayp == SQUOTE || tmp->next->tayp == DQUOTE))
-		return (pars_error(tmp->next->cmd, 0 + (*sb == 0)));
-	if (tmp->tayp == SUBSH_CLOSE && tmp->prev && !check_tayp(tmp->prev->tayp))
+	if (tmp->tayp == SUBSH_CLOSE && (!tmp->prev || \
+		tmp->prev->tayp == SUBSH_OPEN || (*sb) < 0))
+		return (pars_error(")", 0 + (*sb = 0)));
+	if (tmp->tayp == SUBSH_CLOSE && (tmp->next->tayp == WORD \
+	|| tmp->next->tayp == SQUOTE || tmp->next->tayp == DQUOTE))
+		return (pars_error(tmp->next->cmd, 0 + (*sb = 0)));
+	if (tmp->tayp == SUBSH_OPEN && tmp->prev && !check_tayp(tmp->prev->tayp))
 	{
 		if (tmp->next->tayp != END && tmp->prev->tayp != SUBSH_OPEN)
-			return (pars_error (tmp->next->cmd, 0) + (*sb == 0));
-		else if (tmp->prev->tayp != SUBSH_CLOSE)
-			return (pars_error("newline", 0) + (*sb == 0));
+			return (pars_error(tmp->next->cmd, 0) + (*sb = 0));
+		else if (tmp->prev->tayp != SUBSH_OPEN)
+			return (pars_error("newline", 0) + (*sb = 0));
 	}
 	return (1);
 }

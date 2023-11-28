@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 16:31:11 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 19:50:12 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/11 14:46:24 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,11 @@ int	handle_pipe(t_parser **pars, char *str, int *i, int count)
 
 int	handle_less(t_parser **pars, char *str, int *i, int count)
 {
-	int	k;
-
 	handle_space(pars, str, *i, count);
 	if (is_delimiter(*pars))
 		lst_push_back(pars, list_new("(NULL)", WORD, 0, 1));
 	lst_push_back(pars, list_new("<", LESS_THAN, 4, 1));
-	k = 0;
-	while ((int)ft_strlen(str) >= *i + k && str[*i + ++k])
-	{
-		if (str[*i + k] != ' '
-			|| check_tayp(token_name(str + *i + k)))
-			return (*i);
-	}
-	return (pars_error("newline", 0));
+	return (*i);
 }
 
 int	handle_greather(t_parser **pars, char *str, int *i, int count)

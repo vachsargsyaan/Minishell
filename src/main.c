@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:48:21 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 19:35:15 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/11 14:17:21 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **env)
 			str = readline("minishell$ ");
 			if (!str)
 				break ;
-			lex(&parser, str, my_env);
+			lex(&parser, &str, my_env);
 			destroy_init(&parser);
 			add_history(str);
 			free(str);

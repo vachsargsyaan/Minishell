@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 16:23:26 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/09 17:16:28 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/11 14:32:38 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 int	pars_error(char *str, int i)
 {
-	if (str[0] == '(')
-		ft_dprintf(STDERR_FILENO, "syntax error missing token `%s'\n", ")");
+	if (str[0] == '('  || str[0] == '\'' ||str[0] == '"')
+		ft_dprintf(STDERR_FILENO, "syntax error missing token `%s'\n", str);
 	else
 		ft_dprintf(STDERR_FILENO,
 			"syntax error near unexpected token `%s\n", str);
-	return (i);
+	if (i)
+		free(str);
+	return (0);
 }
 
 t_parser	*lst_last_token(t_parser *lst)

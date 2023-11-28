@@ -6,82 +6,105 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:29:36 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/10/02 16:47:59 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/11 15:12:44 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_dquotes(t_parser **pars, char *str, int *i, int count)
+int	quote_count(char *line, char c)
 {
-	int		p;
-	char	*s;
+	int	dquote;
+	int	squote;
+	int	i;
 
-	handle_space(pars, str, *i, count);
-	p = *i +1;
-	while (str[p] && str[p] != '"')
-		p++;
-	if (str[*i] == '"')
-		s = ft_substr(str, *i + 1, p - *i - 1);
-	else
-		s = ft_substr(str, *i, p - *i);
-	if ((str[p] == '"' && is_delimiter(*pars)) || is_delimiter(*pars) == -1)
-		lst_push_back(pars, list_new(s, DQUOTE, 0, 1));
-	else if (str[p] == '"' && *i > 1 && str[*i - 1] == ' ')
-		lst_push_back(pars, list_new(s, DQUOTE, 0, 2));
-	else if (str[p] == '"')
-		lst_push_back(pars, list_new(s, DQUOTE, 0, 0));
-	else
+	i = -1;
+	dquote = ((squote = 0));
+	while (line && line[++i])
 	{
-		free(s);
-		return (pars_error("\"", 0));
+		if (line[i] == '"')
+			dquote++;
+		if (line[i] == '\'')
+			squote++;
 	}
-	free(s);
-	*i = p;
-	return (p);
+	if (c == '\'')
+		return (squote);
+	else if (c == '"')
+		return (dquote);
+	return (dquote + squote);
 }
 
-int	handle_squotes(t_parser **pars, char *str, int *i, int count)
+int	add_new_quote(t_parser **res, char *line, int i, int type)
 {
-	int		p;
-	char	*a;
+	int		counter;
+	char	c;
+	char	*str;
 
-	handle_space(pars, str, *i, count);
-	p = *i + 1;
-	while (str[p] && str[p] != '\'')
-		p++;
-	a = ft_substr(str, *i + 1, p - *i - 1);
-	if (str[p] == '\'' && is_delimiter(*pars))
-		lst_push_back(pars, list_new(a, SQUOTE, 0, 1));
-	else if (str[p] == '\'' && *i > 1 && str[*i - 1] == ' ')
-		lst_push_back(pars, list_new(a, SQUOTE, 0, 2));
-	else if (str[p] == '\'')
-		lst_push_back(pars, list_new(a, SQUOTE, 0, 0));
+	c = '\0';
+	if (type == DQUOTE)
+		c = '"';
+	else if (type == SQUOTE)
+		c = '\'';
+	counter = i + 1;
+	while (line[counter] && line[counter] != c)
+		counter++;
+	if (line[i] == '\'' || line[i] == '"')
+		str = ft_substr(line, i + 1, counter - i - 1);
 	else
-	{
-		free(a);
-		return (pars_error("'", 0));
-	}
-	free(a);
-	*i = p;
-	return (p);
+		str = ft_substr(line, i, counter - i);
+	if (line[counter] == c && is_delimiter(*res))
+		lst_push_back(res, list_new(str, type, 0, 1));
+	else if (line[counter] == c && i > 1 && line[i - 1] == ' ')
+		lst_push_back(res, list_new(str, type, 0, 2));
+	else if (line[counter] == c)
+		lst_push_back(res, list_new(str, type, 0, 0));
+	free(str);
+	return (counter);
 }
 
-int	handle_quotes(t_parser **pars, char *str, int *i, int counter)
+int	handle_dquotes(t_parser **pars, char **str, int *i, int count)
+{
+	int		val;
+
+	handle_space(pars, *str, *i, count);
+	val = add_new_quote(pars, *str, *i, DQUOTE);
+	if (quote_count(*str, '"') % 2)
+	{
+		pars_error("\"", 0);
+		return (*i = -10);
+	}
+	return (*i = val);
+}
+
+int	handle_squotes(t_parser **pars, char **str, int *i, int count)
+{
+	int		p;
+
+	handle_space(pars, *str, *i, count);
+	p = add_new_quote(pars, *str, *i, SQUOTE);
+	if (quote_count(*str, '\'') % 2)
+	{
+		pars_error("'", 0);
+		return (*i = -10);
+	}
+	return (*i = p);
+}
+
+char	*handle_quotes(t_parser **pars, char **str, int *i, int counter)
 {
 	int	status;
 
-	if (str[*i] == '\'')
+	if ((*str)[*i] == '\'')
 	{
 		status = handle_squotes(pars, str, i, counter);
 		if (status < 0)
-			return (status);
+			return ("\'");
 	}
-	if (str[*i] == '\"')
+	if ((*str)[*i] == '\"')
 	{
 		status = handle_dquotes(pars, str, i, counter);
 		if (status < 0)
-			return (status);
+			return ("\"");
 	}
-	return (0);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:46:17 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 20:56:28 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/11/10 20:58:51 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	find_limiter(t_init *main, t_parser *stack)
 	}
 }
 
-int	read_heredoc_input(t_init *main , t_parser *stack, char *line, t_env *env)
+int	read_heredoc_input(t_init *main, t_parser *stack, char *line, t_env *env)
 {
 	char	*res;
 
