@@ -42,6 +42,6 @@ re: fclean all
 
 readline:
 	mkdir -p vacread
-	cd readline-8.1 && make clean && ./configure --prefix=$(shell find ${HOME} -name vacread 2>/dev/null) && make && make install
+	cd readline-master && make clean && ./configure --prefix=$(shell find ${HOME} -name vacread 2>/dev/null) && make && make install
 
 .PHONY: all clean fclean re readline libft
