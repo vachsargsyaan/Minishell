@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/11 15:04:07 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:47:02 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,23 @@
 # define OCTAL			"01234567"
 # define B_HEX			"0123456789ABCDEF"
 # define L_HEX			"0123456789abcdef"
+# define _ISCMD_	2
+# define _REDIR_	8
+# define _PIPES_	32
+# define _SUBSH_	64
+# define _CD_		"cd"
+# define _PWD_		"pwd"
+# define _ENV_		"env"
+# define _EXIT_		"exit"
+# define _ECHO_		"echo"
+# define _UNSET_	"unset"
+# define _EXPORT_	"export"
 
 typedef struct s_hd
 {
 	char	**matrix;
 	int		i;
-}t_hd;
+}	t_hd;
 
 typedef struct s_exp
 {
@@ -61,7 +72,7 @@ typedef struct s_env
 	char				*key;
 	char				*pwd;
 	int					flag;
-}t_env;
+}	t_env;
 
 typedef enum e_token_name
 {
@@ -79,7 +90,7 @@ typedef enum e_token_name
 	SUBSH_CLOSE,
 	INPUT,
 	END,
-}t_name;
+}	t_name;
 
 typedef struct s_parser
 {
@@ -105,7 +116,7 @@ typedef struct s_parser
 	struct s_parser	*prev;
 	struct s_parser	*right;
 	struct s_parser	*left;
-}t_parser;
+}	t_parser;
 
 typedef struct s_init
 {
@@ -170,7 +181,10 @@ t_parser	*ast_branch(t_parser *tok);
 t_parser	*lstlast(t_parser *lst);
 void		pop(t_parser **stack);
 void		push(t_parser **a, t_parser **b);
-
+int			execute(t_init *init, t_env *env);
+t_parser	*abstract_syntax_tree(t_init *init, t_parser **stac);
+void		print_ast(t_parser *ast, int indent, int lrc);
+void		expand_heredoc(char *result, int fd, t_env *env);
 int			g_exit_status_;
 
 #endif

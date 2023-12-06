@@ -1,7 +1,8 @@
 {
 	"files.associations": {
 		"libft.h": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"ios": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

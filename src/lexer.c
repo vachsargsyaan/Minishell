@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:50:18 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/11 15:13:07 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:16:43 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	lexer1(t_parser **pars, char **str, int *i, int counter)
 	while ((*str)[*i])
 	{
 		if ((*str)[*i] == '"' || (*str)[*i] == '\'')
-			 handle_quotes(pars, str, i, counter);
+			handle_quotes(pars, str, i, counter);
 		else if (!lexer2(pars, str, i, counter))
 		{
 			(*i)++;

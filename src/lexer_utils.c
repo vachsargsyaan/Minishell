@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 16:23:26 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/11 14:32:38 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:16:07 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	pars_error(char *str, int i)
 {
-	if (str[0] == '('  || str[0] == '\'' ||str[0] == '"')
+	if (str[0] == '(' || str[0] == '\'' || str[0] == '"')
 		ft_dprintf(STDERR_FILENO, "syntax error missing token `%s'\n", str);
 	else
 		ft_dprintf(STDERR_FILENO,

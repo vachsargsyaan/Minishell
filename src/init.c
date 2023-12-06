@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:50:05 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/08/31 17:21:12 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:10:23 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*printf_strchr(const char *str, int c)
 	{
 		if (*buf == (unsigned char)(c & 0xFF))
 			return (buf);
-			buf++;
+		buf++;
 	}
 	if (*buf == c)
 		return (buf);
@@ -61,7 +61,7 @@ char	*on_ft(int fd, char *s, va_list args, int *count)
 		s++;
 		while (*s && !printf_strchr(FORMAT_FLAGS, *s)
 			&& !printf_strchr(ESCAPE_SEQ, *s))
-				s++;
+			s++;
 		if (printf_strchr(FORMAT_FLAGS, *s))
 			*count += check_flag(fd, s, args);
 		else if (printf_strchr(ESCAPE_SEQ, *s))

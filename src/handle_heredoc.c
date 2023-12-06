@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:46:17 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 20:58:51 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:48:51 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	pop_redir(t_parser *tok)
 
 	tmp = tok;
 	if (tok->prev)
-	{	
+	{
 		tok->prev->next = tok->next;
 		tok->next->prev = tok->prev;
 		tok->next = NULL;
@@ -68,7 +68,7 @@ void	find_limiter(t_init *main, t_parser *stack)
 		while (tmp && tmp->next && (tmp->tayp == WORD || tmp->tayp == SQUOTE || \
 			tmp->tayp == DQUOTE) && tmp->next->tayp != END && \
 			check_tayp(tmp->next->tayp) <= 0 && tmp->next->tayp != SUBSH_CLOSE)
-						tmp = tmp->next;
+			tmp = tmp->next;
 		while ((tmp->tayp == WORD || tmp->tayp == SQUOTE || \
 						tmp->tayp == DQUOTE) && tmp->prev && \
 			check_tayp(tmp->prev->tayp) != 2 && tmp->prev->tayp != SUBSH_OPEN)
@@ -105,7 +105,7 @@ int	read_heredoc_input(t_init *main, t_parser *stack, char *line, t_env *env)
 		if (!read_heredoc_input2(line, &res, stack->next->cmd))
 			break ;
 	}
-	// write_in_fd(&res,stack->fd, env);
+	// expand_heredoc(res,stack->fd, env);
 	return (0);
 }
 

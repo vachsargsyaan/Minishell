@@ -6,11 +6,37 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:00:07 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/11 13:44:04 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/12/05 18:12:57 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_ast(t_parser *ast, int indent, int lrc)
+{
+	int	i;
+
+	i = 0;
+	if (!ast)
+		return ;
+	else if (ast->tayp == END)
+		return (print_ast(ast->right, indent, 0));
+	print_ast(ast->right, indent + 1, 1);
+	while (i++ < indent)
+		printf("\t");
+	if (lrc == 0)
+		printf("\033[38;5;46m╠══════\033[0m[%s][%d][%d]\n", ast->cmd, \
+		(ast->flag & _PIPES_) && 1, ast->sub);
+	else if (lrc == 1)
+		printf("\033[38;5;46m╔══════\033[0m[%s][%d][%d]\n", ast->cmd, \
+		(ast->flag & _PIPES_) && 1, ast->sub);
+	else if (lrc == 2)
+		printf("\033[38;5;46m╚══════\033[0m[%s][%d][%d]\n", ast->cmd, \
+		(ast->flag & _PIPES_) && 1, ast->sub);
+	if (ast->next)
+		print_ast(ast->next, indent + 1, 2);
+	print_ast(ast->left, indent + 1, 2);
+}
 
 void	shunting_yard(t_parser **p, t_parser **ops, t_parser **otp)
 {
@@ -53,9 +79,6 @@ void	parser(t_init *init)
 	}
 	while (postfix)
 		push(&postfix, &opstack);
-	while (opstack != NULL)
-	{
-		printf("%s\n", opstack->cmd);
-		opstack = opstack->next;
-	}
+	init->pars = abstract_syntax_tree(init, &opstack);
+	print_ast(init->pars, 0, 0);
 }

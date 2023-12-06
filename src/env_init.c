@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:04:16 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 20:51:27 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:08:24 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_env	*push_back(t_env **list, t_env *new)
 	if (ptr == NULL)
 		list = &new;
 	else
-	{	
+	{
 		while (ptr->next != NULL)
 			ptr = ptr->next;
 		ptr->next = new;
