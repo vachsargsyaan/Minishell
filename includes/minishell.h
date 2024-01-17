@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/06 17:47:02 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:34:18 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <readline/history.h>
 # include <sys/ioctl.h>
 # include <dirent.h>
+# include <errno.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include "libft.h"
@@ -49,6 +50,13 @@
 # define _ECHO_		"echo"
 # define _UNSET_	"unset"
 # define _EXPORT_	"export"
+
+typedef struct s_wcard
+{
+	struct s_wcard		*next;
+	struct s_wcard		*prev;
+	char				*file;
+}						t_wcard;
 
 typedef struct s_hd
 {
@@ -185,6 +193,34 @@ int			execute(t_init *init, t_env *env);
 t_parser	*abstract_syntax_tree(t_init *init, t_parser **stac);
 void		print_ast(t_parser *ast, int indent, int lrc);
 void		expand_heredoc(char *result, int fd, t_env *env);
+char		*expand(char *str, t_env *env, t_exp *exp);
+void		exp_2(t_exp **tmp, t_env *env);
+void		exp_3(t_exp **tmp);
+int			_free3_(char *ptr1, char **ptr2, char **ptr3);
+int			_close2_(int fd1, int fd2);
+void		destroy_exp(t_exp *exp);
+int			check_ast(t_init *init, t_parser *root, t_env *env);
+int			to_execute(t_init *init, t_parser *stack, t_env *env);
+int			check_built(t_parser *stack, t_env *env);
+int			do_expand(t_parser *stack, t_env *env);
+int			wcard_logic(char *pattern, char *string);
+t_wcard		*lstadd_wcard(char *string);
+void		lstback_wcard(t_wcard **pars, t_wcard *new);
+void		lstclear_wcard(t_wcard **lst);
+t_wcard		*lstlast_wcard(t_wcard *lst);
+int			lstsize_wcard(t_wcard *lst);
+int			lstsize(t_parser *lst);
+void		destroy_exp(t_exp *exp);
+void		free_matrix(char **ptr);
+char		**restore_cmd_line(t_parser *stack, int i);
+int			io_backup(int stdin_backup, int stdout_backup);
+int			io_dup2(int _stdin, int _stdout);
+void		find_path(t_init *init, t_env *env);
+char		*check_cmd(t_init *init, t_parser *stack, char *cmd, char **path);
+char		**env_matrix(t_env *env);
+void		destroy_exp(t_exp *exp);
+int		destroy_cmd(char *cmd, char **cmd_matrix, char **env_matrix);
+
 int			g_exit_status_;
 
 #endif
