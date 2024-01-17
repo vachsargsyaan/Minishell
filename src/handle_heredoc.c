@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:46:17 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/06 17:48:51 by vacsargs         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:07:11 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	read_heredoc_input(t_init *main, t_parser *stack, char *line, t_env *env)
 		if (!read_heredoc_input2(line, &res, stack->next->cmd))
 			break ;
 	}
-	// expand_heredoc(res,stack->fd, env);
+	expand_heredoc(res, stack->fd, env);
 	return (0);
 }
 

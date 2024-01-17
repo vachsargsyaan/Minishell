@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:49:31 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 20:50:55 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:18:48 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,17 @@ void	push(t_parser **a, t_parser **b)
 	else
 		*a = NULL;
 	ptr1->prev = ptr2;
+}
+
+int	lstsize(t_parser *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		(lst) = (lst)->next;
+	}
+	return (i);
 }
