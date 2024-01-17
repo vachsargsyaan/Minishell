@@ -219,7 +219,15 @@ void		find_path(t_init *init, t_env *env);
 char		*check_cmd(t_init *init, t_parser *stack, char *cmd, char **path);
 char		**env_matrix(t_env *env);
 void		destroy_exp(t_exp *exp);
-int		destroy_cmd(char *cmd, char **cmd_matrix, char **env_matrix);
+int			destroy_cmd(char *cmd, char **cmd_matrix, char **env_matrix);
+int			mshell_exit(t_parser *stack, char **matrix, t_env *env, char *s);
+void		mshell_env(t_env *env);
+int			mshell_exit(t_parser *stack, char **matrix, t_env *env, char *s);
+void		mshell_pwd(char *str, t_env *env);
+void		mshell_export(t_parser *stack, char **matrix, t_env *my_env);
+int			mshell_unset(t_parser *stack, char **matrix, t_env *my_env);
+void		mshell_cd(char **arr, t_env *my_env);
+void		mshell_echo(char **arr);
 
 int			g_exit_status_;
 

@@ -12,6 +12,34 @@
 
 #include "minishell.h"
 
+int	execute_builtin(t_parser *stack, t_env *env, char **matrix)
+{
+	if (ft_strcmp(stack->cmd, "exit") == 0)
+	{
+		stack->err_code = mshell_exit(stack, matrix, env, NULL);
+		g_exit_status_ = -100;
+	}
+	else if (ft_strcmp(matrix[0], "env") == 0)
+	{
+		if (matrix[1] != NULL)
+			return (127 + ft_dprintf(2, "%s: %s: %s\n", matrix[0], \
+			matrix[1], "No such file or directory") * 0);
+		mshell_env (env);
+	}
+	else if (ft_strnstr(matrix[0], "pwd", 3) == 0)
+		mshell_pwd (matrix[0], env);
+	else if (ft_strnstr(matrix[0], "export", 6) == 0)
+		mshell_export(stack, matrix, env);
+	else if (ft_strnstr(matrix[0], "unset", 5) == 0)
+		mshell_unset(stack, matrix, env);
+	else if (ft_strnstr(matrix[0], "cd", 2) == 0)
+		mshell_cd(matrix, env);
+	else if (ft_strnstr(matrix[0], "echo", 4) == 0)
+		mshell_echo(matrix);
+	else
+		return (1);
+	return (0);
+}
 int	is_builtin(char **matrix, t_parser	*stack)
 {
 	if (!ft_strcmp(matrix[0], _ENV_) || !ft_strcmp(matrix[0], _ECHO_) || \
