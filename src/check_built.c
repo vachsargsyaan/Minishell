@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:56:49 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/10 16:21:46 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:18:18 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	check_built(t_parser *stack, t_env *env)
 	if (!cmd_matrix || !cmd_matrix[0])
 		return (1);
 	status = is_builtin(cmd_matrix, stack);
-	// if (!status)
-	// 	status = execute_builtin(stack, env, cmd_matrix);
+	if (!status)
+		status = execute_builtin(stack, env, cmd_matrix);
 	free_matrix(cmd_matrix);
 	free(str);
 	return (status + stack->err_code);
