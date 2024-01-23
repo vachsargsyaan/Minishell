@@ -6,11 +6,12 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 18:04:09 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/09 20:51:39 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/23 18:51:17 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 char	*ft_strdup(const char *s1)
 {

@@ -6,11 +6,49 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:48:21 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/25 16:30:19 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/23 18:52:19 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handle_dollar(int exit_status, t_env *env)
+{
+	t_env	*tmp;
+	char	*status;
+
+	tmp = env;
+	if (g_exit_status_ == -111)
+		status = ft_strdup("1");
+	else
+		status = ft_itoa(exit_status);
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, "$?"))
+		{
+			free(tmp->data);
+			tmp->data = ft_strdup(status);
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	if (g_exit_status_ != -111)
+		g_exit_status_ = 0;
+	free(status);
+}
+
+int	ft_onlyspaces(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (1);
+	}
+	return (0);
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -32,14 +70,18 @@ int	main(int argc, char **argv, char **env)
 			str = readline("minishell$ ");
 			if (!str)
 				break ;
-			lex(&parser, &str, my_env);
-			if (parser.pars)
+			if (ft_onlyspaces(str))
 			{
-				parser.exit_status = check_ast(&parser, parser.pars, my_env);
-				parser.hd->i = 0;
+				lex(&parser, &str, my_env);
+				if (parser.pars)
+				{
+					parser.exit_status = check_ast(&parser, parser.pars, my_env);
+					parser.hd->i = 0;
+				}
+				destroy_init(&parser);
+				handle_dollar(parser.exit_status, my_env);
+				add_history(str);
 			}
-			destroy_init(&parser);
-			add_history(str);
 			free(str);
 		}
 	}

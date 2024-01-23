@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:56:49 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/17 17:18:18 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/23 19:22:54 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	execute_builtin(t_parser *stack, t_env *env, char **matrix)
 		return (1);
 	return (0);
 }
+
 int	is_builtin(char **matrix, t_parser	*stack)
 {
 	if (!ft_strcmp(matrix[0], _ENV_) || !ft_strcmp(matrix[0], _ECHO_) || \
@@ -60,14 +61,14 @@ int	check_built(t_parser *stack, t_env *env)
 	char	**cmd_matrix;
 	char	*str;
 	int		status;
-	
+
 	str = ft_strdup(stack->cmd);
 	if (do_expand(stack, env) && stack->cmd[0] == '\0')
 	{
 		free (stack->cmd);
 		stack->cmd = str;
 		return (1);
-	}	
+	}
 	cmd_matrix = restore_cmd_line(stack, -1);
 	if (!cmd_matrix || !cmd_matrix[0])
 		return (1);

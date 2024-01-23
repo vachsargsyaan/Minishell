@@ -2,7 +2,7 @@ NAME	= minishell
 
 SRC_DIR = src
 
-SRC 	= $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/build/*.c)
+SRC 	= $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/builtins/*.c)
 
 OBJ_DIR	= obj
 OBJ 	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -20,10 +20,13 @@ all: libft $(OBJ_DIR) $(NAME) libft
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) Makefile
 	$(CC) $(CFLAGS) $(INCLUDE) $(IFLAGS) -c $< -o $@ 
 
+$(OBJ_DIR)/builtins:
+	@$(MK) $@
+
 $(OBJ_DIR):
 	@$(MK) $(OBJ_DIR)
 
-$(NAME): $(OBJ) $(HEADER)
+$(NAME): $(OBJ_DIR) $(OBJ_DIR)/builtins $(OBJ) $(HEADER)
 	$(CC) $(CFLAGS)  $(INCLUDE) $(LFLAGS) $(IFLAGS) -o $(NAME) $(OBJ)
 
 libft:

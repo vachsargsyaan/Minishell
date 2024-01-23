@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:50:05 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/06 17:10:23 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:37:48 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,16 @@ t_init	init(int argc, char **argv, char **env)
 supported.\n");
 		exit(EXIT_FAILURE);
 	}
+	pars.hdoc = 0;
+	pars.redir = 0;
+	pars.input = 0;
+	pars.fd_fail = 0;
+	pars.hd = NULL;
 	pars.lex = NULL;
+	pars.path = NULL;
 	pars.pars = NULL;
 	pars.temp = NULL;
-	pars.path = NULL;
-	pars.flag = -42;
+	pars.last_hdoc = -42;
+	pars.exit_status = 0;
 	return (pars);
 }

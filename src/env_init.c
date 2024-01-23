@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:04:16 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/06 17:08:24 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:20:31 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,4 @@ t_env	*malloc_list(char *env)
 	if (!ft_strcmp(tmp->key, "$?"))
 		tmp->flag = 3;
 	return (tmp);
-}
-
-t_env	*env_init(char **env, t_env *my_env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		my_env = push_back(&my_env, malloc_list(env[i]));
-		i++;
-		if (env[i] == NULL)
-			my_env = push_back(&my_env, malloc_list("$?=0"));
-	}
-	return (my_env);
 }

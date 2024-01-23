@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:24:02 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/10/08 16:20:15 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/19 19:55:44 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
-char	*ft_strnstr(const char *hay, const char *need, size_t len);
+char	*ft_strnstr( char *str, char *str1, int len);
 int		ft_atoi(const char *str);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *s1);

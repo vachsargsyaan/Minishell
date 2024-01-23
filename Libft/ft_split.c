@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vacsargs <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 16:26:52 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/02/02 16:02:49 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/19 19:56:27 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static	char	**ft_erkar(char const *s, char c, char **p)
 			z++;
 		}
 		else
-		j++;
+			j++;
 	}
 	return (p);
 }

@@ -6,35 +6,38 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 15:45:46 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/10/08 16:19:56 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/23 19:16:42 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "libft.h"
 
-char	*ft_strjoin(char *s1, char *s2, int flag)
+char	*ft_strjoin(char *s1, char *s2, int mode)
 {
+	char	*new;
+	int		len;
 	int		i;
-	int		j;
-	char	*str;
+	int		k;
 
-	if (!s2)
+	if (!s1)
+		s1 = ft_strdup("");
+	if (!s1 || !s2)
 		return (NULL);
-	i = 0;
-	j = 0;
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
-		return (0);
-	while (s1 && s1[j] != '\0')
-		str[i++] = s1[j++];
-	j = 0;
-	while (s2 && s2[j] != '\0')
-		str[i++] = s2[j++];
-	str[i] = '\0';
-	if (flag == 1)
-	{
+	i = -1;
+	k = -1;
+	len = ft_strlen(s1) + ft_strlen(s2);
+	new = (char *)malloc(sizeof(char) * (len + 1));
+	if (!new)
+		return (NULL);
+	while (s1[++i])
+		new[i] = s1[i];
+	while (s2[++k])
+		new[i + k] = s2[k];
+	new[len] = '\0';
+	if (mode == 1)
 		free(s1);
-		s1 = 0;
-	}
-	return (str);
+	if (mode == 2)
+		free(s2);
+	return (new);
 }

@@ -6,11 +6,9 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:52:40 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/17 19:03:40 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:43:20 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 #include "minishell.h"
 

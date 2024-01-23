@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 17:09:01 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/25 16:38:20 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:20:13 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	exp_3(t_exp **tmp)
 {
 	t_exp	*exp;
 	char	*s1;
-	
+
 	s1 = NULL;
 	exp = *tmp;
 	exp->i = exp->l;

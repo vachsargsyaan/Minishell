@@ -6,13 +6,14 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:56:45 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/17 19:03:40 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:17:24 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_exit_status(t_parser *stack, char **matrix, char *s, int exit_num);
+int		check_exit_status(t_parser *stack,
+			char **matrix, char *s, int exit_num);
 int		mshell_exit(t_parser *stack, char **matrix, t_env *env, char *s);
 int		exit_error_code(t_parser *stack, t_env *env, char *s);
 char	*num_sign(char *s, char c);
