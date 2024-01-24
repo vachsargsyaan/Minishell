@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 17:38:15 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/23 19:22:39 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:16:07 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int	check_ast(t_init *init, t_parser *root, t_env *env)
 		root->err_code = exec_iocmd(init, root, env);
 	// else if (root->left && root->right && root->type == PIPE)
 	// 	root->err_code = pipe_prepair(init, root, env);
-	// if (root->left != NULL && !(root->left->flag & (_REDIR_)) && \
-	// 	!(root->left->flag & (_PIPES_)))
-	// 	root->err_code = left_branch(init, root, env, status);
+	if (root->left != NULL && !(root->left->flag & (_REDIR_)) && \
+		!(root->left->flag & (_PIPES_)))
+		root->err_code = left_branch(init, root, env, status);
 	if (root->right != NULL && andor_check(root) && \
 		!(root->right->flag & (_REDIR_)) && !(root->right->flag & (_PIPES_)))
 		root->err_code = right_branch(init, root, env, status);
