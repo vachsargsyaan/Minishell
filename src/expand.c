@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 17:09:01 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/18 19:20:13 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/26 17:08:24 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,6 @@ void	free_matrix(char **ptr)
 		free(ptr[i]);
 	free (ptr);
 	ptr = 0;
-}
-
-int	_close2_(int fd1, int fd2)
-{
-	if (fd1 >= 0 && close(fd1) < 0)
-	{
-		perror("minishell");
-		return (-10);
-	}
-	if (fd2 >= 0 && close(fd2) < 0)
-	{
-		perror("minishell");
-		return (-10);
-	}
-	return (0);
 }
 
 int	_free3_(char *ptr1, char **ptr2, char **ptr3)

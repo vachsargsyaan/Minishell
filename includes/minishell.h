@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/23 17:25:23 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:09:53 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ typedef struct s_parser
 	char			*hdoc_fname;
 	int				flag;
 	t_name			tayp;
-	int				error_cod;
 	int				prc;
 	int				err_code;
 	int				sub;
@@ -299,5 +298,10 @@ int						execute_second_arg(t_init *init, t_parser *stack, t_env *env);
 t_parser				*find_second_arg(t_parser *stack);
 int						right_branch(t_init *in, t_parser *s, t_env *env, int status);
 void					handle_dollar(int exit_status, t_env *env);
+int						left_branch(t_init *in, t_parser *s, t_env *env, int status);
+int						close_pipes(int *fd);
+int						_close2_(int fd1, int fd2);
+int 					pipe_prepair(t_init *init, t_parser *stack,t_env *env);
+void					config_right_dups(t_parser *stack);
 int						g_exit_status_;
 #endif
