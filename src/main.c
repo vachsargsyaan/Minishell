@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:48:21 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 15:52:44 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 18:19:49 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	ft_onlyspaces(char *str)
 	{
 		if (str[i] != ' ')
 			return (1);
+		i++;
 	}
 	return (0);
 }
