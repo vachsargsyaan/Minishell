@@ -6,13 +6,14 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:23:20 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/25 18:09:27 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 16:15:30 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static pid_t	child_right(t_init *init, t_parser *stack, t_env *env, int *pipes)
+static pid_t	child_right(t_init *init,
+				t_parser *stack, t_env *env, int *pipes)
 {
 	int		status;
 	pid_t	pid;
@@ -31,7 +32,8 @@ static pid_t	child_right(t_init *init, t_parser *stack, t_env *env, int *pipes)
 	return (pid);
 }
 
-static pid_t	child_left(t_init *init, t_parser *stack, t_env *env, int *pipes)
+static pid_t	child_left(t_init *init,
+				t_parser *stack, t_env *env, int *pipes)
 {
 	int		status;
 	pid_t	pid;
@@ -50,17 +52,17 @@ static pid_t	child_left(t_init *init, t_parser *stack, t_env *env, int *pipes)
 	return (pid);
 }
 
-int pipe_prepair(t_init *init, t_parser *stack,t_env *env)
+int	pipe_prepair(t_init *init, t_parser *stack, t_env *env)
 {
 	pid_t	pid_right;
 	pid_t	pid_left;
 	int		pipes[2];
 	int		status;
-	
+
 	config_right_dups(stack);
 	stack->left->flag |= _PIPES_;
 	stack->right->flag |= _PIPES_;
-	if(pipe(pipes) == -1)
+	if (pipe(pipes) == -1)
 	{
 		stack->err_code = 1;
 		perror ("minishell");

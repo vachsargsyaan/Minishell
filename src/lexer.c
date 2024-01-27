@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:50:18 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/06 17:16:43 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 16:17:02 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,27 @@ int	lexer(t_parser **pars, char **str)
 
 void	lex(t_init *init, char **str, t_env *env)
 {
-	int	sb;
+	int		sb;
 
 	sb = 0;
 	g_exit_status_ = 0;
-	if (!lexer(&(init->lex), str) ||!check_valid(init, env, &sb, 0) || \
-		!check_valid(init, env, &sb, 1) || sb > 0 || !init->lex)
+	if (!lexer(&init->lex, str) || !init->lex)
 	{
-		if (sb > 0)
-			dprintf(2, "minishell: syntax error: missing token `)'\n");
+		destroy_init(init);
 		init->exit_status = 258;
 		return ;
 	}
-	if (heredoc_valid(init, init->lex))
-		exit (2);
+	heredoc_valid(init, NULL);
+	if (!check_valid(init, env, &sb, 1) || sb > 0 \
+		|| !check_valid(init, env, &sb, 0))
+	{
+		if (sb > 0)
+			ft_dprintf(2, "minishell: syntax error: missing token `)'\n");
+		unlink_heredocs(init);
+		destroy_init(init);
+		init->exit_status = 258;
+		return ;
+	}
+	check_redir(&init->lex);
 	parser(init);
 }

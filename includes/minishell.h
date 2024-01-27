@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/25 18:09:53 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 16:03:05 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,17 @@ typedef enum e_token_name
 	WORD,
 	DQUOTE,
 	SQUOTE,
+	SUBSH_OPEN,
+	SUBSH_CLOSE,
+	OR,
 	AND,
 	PIPE,
-	OR,
 	HEREDOC,
 	DOUBLE_RIGHT,
 	GREATHER,
 	LESS_THAN,
-	SUBSH_OPEN,
-	SUBSH_CLOSE,
-	INPUT,
+	FILEIN,
+	FILEOUT,
 	END,
 }	t_name;
 
@@ -133,16 +134,16 @@ typedef struct s_init
 	t_parser	*pars;
 	t_parser	*lex;
 	t_parser	*temp;
-	int		input;
-	int		redir;
-	char	**path;
-	int		fd_fail;
-	int		last_hdoc;
-	int		last_redir;
-	int		last_input;
-	int		exit_status;
-	int		stdin_backup;
-	int		stdout_backup;
+	int			input;
+	int			redir;
+	char		**path;
+	int			fd_fail;
+	int			last_hdoc;
+	int			last_redir;
+	int			last_input;
+	int			exit_status;
+	int			stdin_backup;
+	int			stdout_backup;
 }				t_init;
 
 void					printf_minishell(void);
@@ -193,7 +194,7 @@ void					destroy_init(t_init *init);
 char					*handle_quotes(t_parser **pars,
 							char **str, int *i, int counter);
 int						ft_strcmp(char *s1, char *s2);
-int						heredoc_valid(t_init *init, t_parser *stack);
+void					heredoc_valid(t_init *init, t_parser *stack);
 void					parser(t_init *init);
 t_env					*push_back(t_env **list, t_env *new);
 t_env					*malloc_list(char *env);
@@ -294,14 +295,22 @@ int						open_out(t_init *init, t_parser *stack);
 int						open_hd(t_parser *stack);
 int						open_in(t_init *init, t_parser *stack);
 int						is_wrd(t_parser *tok);
-int						execute_second_arg(t_init *init, t_parser *stack, t_env *env);
+int						execute_second_arg(t_init *init,
+							t_parser *stack, t_env *env);
 t_parser				*find_second_arg(t_parser *stack);
-int						right_branch(t_init *in, t_parser *s, t_env *env, int status);
+int						right_branch(t_init *in, t_parser *s,
+							t_env *env, int status);
 void					handle_dollar(int exit_status, t_env *env);
-int						left_branch(t_init *in, t_parser *s, t_env *env, int status);
+int						left_branch(t_init *in, t_parser *s,
+							t_env *env, int status);
 int						close_pipes(int *fd);
 int						_close2_(int fd1, int fd2);
-int 					pipe_prepair(t_init *init, t_parser *stack,t_env *env);
+int						pipe_prepair(t_init *init,
+							t_parser *stack, t_env *env);
 void					config_right_dups(t_parser *stack);
+void					unlink_heredocs(t_init	*init);
+void					check_redir(t_parser **tok);
+void					push_redir(t_parser *to, t_parser *from);
+
 int						g_exit_status_;
 #endif

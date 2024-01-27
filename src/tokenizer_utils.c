@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:10:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/10 15:17:12 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 17:18:50 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	check_tayp(t_name type)
 {
 	if (type == OR || type == AND || type == PIPE)
 		return (1);
-	else if (type == HEREDOC || type == DOUBLE_RIGHT)
-		return (1);
-	else if (type == GREATHER || type == LESS_THAN)
+	else if (type == HEREDOC || type == LESS_THAN)
+		return (2);
+	else if (type == GREATHER || type == DOUBLE_RIGHT)
 		return (2);
 	return (0);
 }

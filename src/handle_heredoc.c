@@ -6,11 +6,27 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:46:17 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/18 17:07:11 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 16:51:05 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	if_implementation(t_parser **tmp, t_parser **cmd_l)
+{
+	while ((*tmp) && (*tmp)->next && ((*tmp)->tayp == WORD || \
+		(*tmp)->tayp == SQUOTE || (*tmp)->tayp == DQUOTE) && \
+		(*tmp)->next->tayp != END && check_tayp((*tmp)->next->tayp) <= 0 && \
+		(*tmp)->next->tayp != SUBSH_CLOSE)
+		(*tmp) = (*tmp)->next;
+	while (((*tmp)->tayp == WORD || (*tmp)->tayp == SQUOTE || \
+					(*tmp)->tayp == DQUOTE) && (*tmp)->prev && \
+		check_tayp((*tmp)->prev->tayp) != 2 && (*tmp)->prev->tayp != SUBSH_OPEN)
+	{
+		(*tmp) = (*tmp)->prev;
+		push_redir(*cmd_l, (*tmp)->next);
+	}
+}
 
 void	push_redir(t_parser *to, t_parser *from)
 {
@@ -51,8 +67,7 @@ void	find_limiter(t_init *main, t_parser *stack)
 
 	tmp = stack->next;
 	cmd_l = stack->prev->prev;
-	while (tmp && tmp->cmd && (tmp->tayp == WORD || tmp->tayp == SQUOTE \
-		|| tmp->tayp == DQUOTE) && !(tmp->flag & 1 << 1))
+	while (tmp && tmp->cmd && is_wrd(tmp) && !(tmp->flag & 1 << 1))
 	{
 		stack->cmd = ft_strjoin(stack->cmd, tmp->cmd, 1);
 		tmp = tmp->next;
@@ -60,24 +75,12 @@ void	find_limiter(t_init *main, t_parser *stack)
 	}
 	while (cmd_l->prev && check_tayp(cmd_l->prev->tayp) == 2)
 		cmd_l = cmd_l->prev->prev;
-	if (!ft_strcmp(cmd_l->cmd, "(NULL)") && tmp->cmd && \
-	(tmp->tayp != WORD && tmp->tayp != SQUOTE && tmp->tayp != DQUOTE))
+	if (cmd_l->cmd && !ft_strcmp(cmd_l->cmd, "(NULL)") \
+		&& tmp->cmd && !is_wrd(tmp))
 		return ;
-	if (tmp && tmp->cmd && (tmp->tayp == WORD || tmp->tayp == SQUOTE || tmp->tayp == DQUOTE))
-	{
-		while (tmp && tmp->next && (tmp->tayp == WORD || tmp->tayp == SQUOTE || \
-			tmp->tayp == DQUOTE) && tmp->next->tayp != END && \
-			check_tayp(tmp->next->tayp) <= 0 && tmp->next->tayp != SUBSH_CLOSE)
-			tmp = tmp->next;
-		while ((tmp->tayp == WORD || tmp->tayp == SQUOTE || \
-						tmp->tayp == DQUOTE) && tmp->prev && \
-			check_tayp(tmp->prev->tayp) != 2 && tmp->prev->tayp != SUBSH_OPEN)
-		{
-			tmp = tmp->prev;
-			push_redir(cmd_l, tmp->next);
-		}
-	}
-	if (!ft_strcmp(cmd_l->cmd, "(NULL)") && !cmd_l->prev)
+	if (tmp && tmp->cmd && is_wrd(tmp))
+		if_implementation(&tmp, &cmd_l);
+	if (cmd_l->cmd && !ft_strcmp(cmd_l->cmd, "(NULL)") && !cmd_l->prev)
 	{
 		main->lex = main->lex->next;
 		main->lex->flag |= 1;
@@ -87,40 +90,24 @@ void	find_limiter(t_init *main, t_parser *stack)
 
 int	read_heredoc_input(t_init *main, t_parser *stack, char *line, t_env *env)
 {
-	char	*res;
+	char	*result;
 
-	(void)env;
-	res = NULL;
+	result = NULL;
 	stack->hdoc_fname = ft_strdup(main->hd->matrix[++main->hd->i]);
-	stack->fd = open(stack->hdoc_fname, O_RDWR | O_CREAT | O_TRUNC, 0655);
+	stack->fd = open(stack->hdoc_fname, O_RDWR | O_CREAT | O_TRUNC, 00655);
 	find_limiter(main, stack->next);
 	call_signals(4);
 	while (1)
 	{
 		if (g_exit_status_ == 130)
 		{
-			free(res);
+			free(result);
+			main->exit_status = 1;
 			return (130);
 		}
-		if (!read_heredoc_input2(line, &res, stack->next->cmd))
+		if (!read_heredoc_input2(line, &result, stack->next->cmd))
 			break ;
 	}
-	expand_heredoc(res, stack->fd, env);
-	return (0);
-}
-
-int	read_heredoc_input2(char *line, char **res, char *limiter)
-{
-	line = readline("> ");
-	if (!line || strcmp(line, limiter) == 0)
-	{
-		free(line);
-		return (0);
-	}
-	if (!(*res))
-		(*res) = ft_strdup(line);
-	else
-		(*res) = strjoin_mode((*res), line, 1);
-	free(line);
+	expand_heredoc(result, stack->fd, env);
 	return (1);
 }

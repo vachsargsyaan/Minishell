@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:27:47 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/11/10 20:51:07 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/26 21:27:22 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,24 @@ t_parser	*list_new(char *content, t_name type, int prec, int flag)
 	return (elt);
 }
 
-int	heredoc_valid(t_init *init, t_parser *stack)
+void	heredoc_valid(t_init *init, t_parser *stack)
 {
-	t_parser	*tmp;
-
-	tmp = stack;
-	while (tmp)
+	stack = init->lex;
+	while (stack)
 	{
-		if (tmp->tayp == HEREDOC)
+		if (stack->tayp == HEREDOC)
+		{
+			if (stack->next->next->tayp == DOUBLE_RIGHT || \
+				stack->next->next->tayp == GREATHER)
+				init->redir = 1;
 			init->hdoc++;
-		tmp = tmp->next;
+		}
+		stack = stack->next;
 	}
 	if (init->hdoc > 15)
 	{
-		dprintf(2, "Minishell: maximum here-document count exceeded");
-		return (1);
+		ft_dprintf(2, "minishell: maximum here-document count exceeded\n");
+		destroy_init(init);
+		exit(2);
 	}
-	return (0);
 }

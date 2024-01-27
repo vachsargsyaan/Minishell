@@ -6,68 +6,39 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 16:55:02 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/19 18:39:57 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 16:05:39 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	back_slash(int sig)
-{
-	g_exit_status_ = 131;
-	ft_dprintf(2, "Quit: 3\n");
-	(void) sig;
-}
+static void	ft_irc(int signum);
 
-void	sig_handler_hdoc(int sig)
+int	handler(void)
 {
-	(void) sig;
-	g_exit_status_ = 130;
-	write(1, "\n", 1);
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-}
-
-void	ctrl_c(int sig)
-{
-	g_exit_status_ = 130;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	(void)sig;
-}
-
-void	restore_prompt(int sig)
-{
-	g_exit_status_ = -111;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	(void) sig;
+	return (0);
 }
 
 void	call_signals(int sig)
 {
-	if (sig == 1)
+	struct sigaction	sa;
+
+	sa.sa_handler = &ft_irc;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+	rl_catch_signals = 0;
+	rl_event_hook = &handler;
+	(void)sig;
+}
+
+void	ft_irc(int signum)
+{
+	if (signum == SIGINT)
 	{
-		signal(SIGINT, restore_prompt);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	if (sig == 2)
-	{
-		signal(SIGINT, ctrl_c);
-		signal(SIGQUIT, back_slash);
-	}
-	if (sig == 3)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	if (sig == 4)
-	{
-		signal(SIGINT, sig_handler_hdoc);
-		signal(SIGQUIT, SIG_IGN);
+		g_exit_status_ = SIGINT;
+		rl_replace_line("", 0);
+		rl_done = 42;
 	}
 }

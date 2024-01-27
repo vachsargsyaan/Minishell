@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:04:11 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/23 18:29:03 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 16:50:02 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ void	config_right_dups(t_parser *stack)
 	if (stack->sub)
 		stack->right->sub = 1;
 }
+
 int	right_branch(t_init *in, t_parser *s, t_env *env, int status)
 {
-	int pid;
+	int	pid;
 
 	config_right_dups(s);
 	if (ch_reds(in, s, 1) && s->right->sub && check_tayp(s->right->tayp) == 1)

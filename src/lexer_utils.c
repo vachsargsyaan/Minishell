@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 16:23:26 by vacsargs          #+#    #+#             */
-/*   Updated: 2023/12/06 17:16:07 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 16:24:46 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ int	is_delimiter(t_parser *pars)
 	if (!root)
 		return (2);
 	root = lst_last_token(root);
-	if (root->tayp == PIPE || root->tayp == HEREDOC || root->tayp == INPUT)
+	if (root->tayp == PIPE || root->tayp == HEREDOC || root->tayp == LESS_THAN)
 		return (1);
 	else if (root->tayp == AND || root->tayp == OR)
 		return (1);
-	else if (root->tayp == GREATHER || root->tayp == LESS_THAN)
+	else if (root->tayp == GREATHER || root->tayp == DOUBLE_RIGHT)
 		return (1);
+	else if (root->tayp == SUBSH_OPEN || root->tayp == SUBSH_CLOSE)
+		return (3);
 	else
 		return (0);
 }

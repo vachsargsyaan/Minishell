@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:29:42 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/24 17:44:04 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 16:11:15 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	left_branch(t_init *in, t_parser *s, t_env *env, int status)
 			perror("minishell");
 			return (1);
 		}
-		s->err_code = status /256;
+		s->err_code = status / 256;
 	}
 	else
-		s->err_code = check_ast(in,s->left, env);
-		return (s->err_code);
+		s->err_code = check_ast(in, s->left, env);
+	return (s->err_code);
 }

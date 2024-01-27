@@ -6,11 +6,21 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:48:21 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/23 18:52:19 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 15:52:44 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	save_backup(t_init *init)
+{
+	init->stdin_backup = dup(STDIN_FILENO);
+	if (init->stdin_backup == -1)
+		perror("minishell");
+	init->stdout_backup = dup(STDOUT_FILENO);
+	if (init->stdout_backup == -1)
+		perror("minishell");
+}
 
 void	handle_dollar(int exit_status, t_env *env)
 {
@@ -50,6 +60,34 @@ int	ft_onlyspaces(char *str)
 	return (0);
 }
 
+void static	while_loop(t_init *init, t_env *env, char *str)
+{
+	save_backup(init);
+	call_signals(1);
+	str = readline("minishell$ ");
+	if (!str)
+	{
+		ft_dprintf(2, "exit\n");
+		if (g_exit_status_ == 130)
+			exit (1);
+		exit (init->exit_status);
+	}
+	if (ft_onlyspaces(str))
+	{
+		lex(init, &str, env);
+		if (init->pars)
+		{
+			init->exit_status = check_ast(init, init->pars, env);
+			init->hd->i = 0;
+			destroy_init(init);
+		}
+		handle_dollar(init->exit_status, env);
+		init->exit_status = 0;
+		add_history(str);
+	}
+	free(str);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_init	parser;
@@ -57,33 +95,17 @@ int	main(int argc, char **argv, char **env)
 	t_env	*my_env;
 
 	my_env = NULL;
+	str = NULL;
+	parser.flag = 1;
+	parser = init(argc, argv, env);
+	my_env = env_init(env, my_env);
+	rl_catch_signals = 0;
 	if (argc == 1 && argv)
 	{
+		init_hd(&parser.hd);
 		printf_minishell();
 		while (1)
-		{
-			rl_catch_signals = 0;
-			call_signals(1);
-			parser = init(argc, argv, env);
-			my_env = env_init(env, my_env);
-			init_hd(&parser.hd);
-			str = readline("minishell$ ");
-			if (!str)
-				break ;
-			if (ft_onlyspaces(str))
-			{
-				lex(&parser, &str, my_env);
-				if (parser.pars)
-				{
-					parser.exit_status = check_ast(&parser, parser.pars, my_env);
-					parser.hd->i = 0;
-				}
-				destroy_init(&parser);
-				handle_dollar(parser.exit_status, my_env);
-				add_history(str);
-			}
-			free(str);
-		}
+			while_loop(&parser, my_env, str);
 	}
 	return (0);
 }

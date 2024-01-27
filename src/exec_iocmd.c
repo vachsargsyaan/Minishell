@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 19:25:55 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/23 19:27:12 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/27 17:16:12 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,11 @@ int	exec_iocmd(t_init *init, t_parser *stack, t_env *env)
 		stack->err_code = check_ast(init, stack->left, env);
 	if (init->exit_status == EXIT_SUCCESS)
 	{
-		if (stack->tayp == GREATHER || stack->tayp == LESS_THAN)
+		if (stack->tayp == GREATHER || stack->tayp == DOUBLE_RIGHT)
 			return (io_out(init, stack, env));
 		else if (stack->tayp == HEREDOC)
 			return (io_heredoc(init, stack, env));
-		else if (stack->tayp == INPUT)
+		else if (stack->tayp == LESS_THAN)
 			return (io_input(init, stack, env));
 	}
 	if (stack->hdoc_fname)
