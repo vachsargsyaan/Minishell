@@ -1,4 +1,4 @@
-prefix=/Users/vacsargs/Desktop/Minishell/vacread
+prefix=/Users/vachesargsyan/Desktop/Minishell/readline_update
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

@@ -33,6 +33,7 @@ int	check_ast(t_init *init, t_parser *root, t_env *env)
 	int		status;
 
 	status = 0;
+
 	if (!root)
 	{
 		root->err_code = 258;
