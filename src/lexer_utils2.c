@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 21:33:45 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 16:07:32 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:01:24 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	unlink_heredocs(t_init	*init)
 int	read_heredoc_input2(char *line, char **res, char *limiter)
 {
 	line = readline("> ");
-	if (!line || strcmp(line, limiter) == 0)
+	if (!line || ft_strcmp(line, limiter) == 0)
 	{
 		free(line);
 		return (0);

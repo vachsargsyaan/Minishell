@@ -8,7 +8,7 @@ OBJ_DIR	= obj
 OBJ 	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 CC		= cc
-PREFIX		= $(shell pwd)/readline_update
+PREFIX		= $(shell pwd)/vacread
 HEADER	= $(wildcard includes/*.h) $(wildcard Libft/libft.h)
 INCLUDE	= -Iincludes
 CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
