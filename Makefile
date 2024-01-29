@@ -8,9 +8,10 @@ OBJ_DIR	= obj
 OBJ 	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 CC		= cc
+PREFIX		= $(shell pwd)/readline_update
 HEADER	= $(wildcard includes/*.h) $(wildcard Libft/libft.h)
 INCLUDE	= -Iincludes
-CFLAGS	= -Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
 MK		= mkdir -p
 LFLAGS  =	-lreadline -L./vacread/lib -lft -L./Libft
 IFLAGS  =	-I./vacread/include -ILibft
@@ -44,7 +45,6 @@ fclean: clean
 re: fclean all
 
 readline:
-	mkdir -p vacread
-	cd readline-master && make clean && ./configure --prefix=$(shell find ${HOME} -name vacread 2>/dev/null) && make && make install
+	cd readline-master && make clean && ./configure --prefix=$(PREFIX) && make && make install
 
 .PHONY: all clean fclean re readline libft

@@ -47,8 +47,7 @@ char	*token_is(t_name token)
 		return (">");
 	else if (token == LESS_THAN)
 		return ("<");
-	else
-		return ("newline");
+	return ("AST");
 }
 
 t_name	token_name(char *token)

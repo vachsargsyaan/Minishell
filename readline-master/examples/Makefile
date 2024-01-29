@@ -21,7 +21,7 @@ RL_LIBRARY_VERSION = 8.0
 SHELL = /bin/sh
 RM = rm -f
 
-prefix = /Users/vacsargs/Desktop/Minishell/vacread
+prefix = /Users/vachesargsyan/Desktop/Minishell/readline_update
 exec_prefix = ${prefix}
 
 datarootdir = ${prefix}/share
@@ -32,7 +32,7 @@ datadir = ${datarootdir}
 
 top_srcdir = ..
 #BUILD_DIR = .
-BUILD_DIR = /Users/vacsargs/Desktop/Minishell/readline-master
+BUILD_DIR = /Users/vachesargsyan/Desktop/Minishell/readline-master
 installdir = $(datadir)/readline
 
 INSTALL = /usr/bin/install -c
