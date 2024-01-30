@@ -93,13 +93,13 @@ void	lex(t_init *init, char **str, t_env *env)
 
 	sb = 0;
 	g_exit_status_ = 0;
+	init->exit_status = 0;
 	if (!lexer(&init->lex, str) || !init->lex)
 	{
 		destroy_init(init);
 		init->exit_status = 258;
 		return ;
 	}
-	heredoc_valid(init, NULL);
 	if (!check_valid(init, env, &sb, 0) || sb > 0 \
 		|| !check_valid(init, env, &sb, 1))
 	{
@@ -110,6 +110,7 @@ void	lex(t_init *init, char **str, t_env *env)
 		init->exit_status = 258;
 		return ;
 	}
+	heredoc_valid(init, NULL);
 	check_redir(&init->lex);
 	parser(init);
 }
