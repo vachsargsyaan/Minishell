@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 17:38:15 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 16:42:45 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:09:01 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	check_ast(t_init *init, t_parser *root, t_env *env)
 	int		status;
 
 	status = 0;
-
 	if (!root)
 	{
 		root->err_code = 258;

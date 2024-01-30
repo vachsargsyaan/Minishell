@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 16:31:11 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 16:25:42 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/30 20:51:59 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	handle_pipe(t_parser **pars, char *str, int *i, int count)
 {
 	handle_space(pars, str, *i, count);
 	if (!(*pars))
-		return (pars_error("|", *i));
+		return (pars_error("|", 0) - 42);
 	lst_push_back(pars, list_new("|", PIPE, 3, 1));
 	return (*i);
 }
@@ -60,7 +60,7 @@ void	handle_space(t_parser **pars, char *str, int i, int count)
 int	handle_heredoc(t_parser **pars, char *str, int *i, int count)
 {
 	handle_space(pars, str, *i, count);
-	if (is_delimiter(*pars))
+	if (is_delimiter(*pars)  && is_delimiter(*pars) != 3)
 		lst_push_back(pars, list_new("(NULL)", WORD, 0, 1));
 	lst_push_back(pars, list_new("<<", HEREDOC, 4, 1));
 	return (*i + 1);

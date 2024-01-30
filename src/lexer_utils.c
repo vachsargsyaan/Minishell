@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 16:23:26 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 16:24:46 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/30 22:15:59 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	pars_error(char *str, int i)
 	else
 		ft_dprintf(STDERR_FILENO,
 			"syntax error near unexpected token `%s\n", str);
-	if (i)
+	if (i==1)
 		free(str);
 	return (0);
 }

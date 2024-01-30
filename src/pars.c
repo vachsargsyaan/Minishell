@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:00:07 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 16:50:53 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:08:04 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,4 @@ void	parser(t_init *init)
 	while (postfix)
 		push(&postfix, &opstack);
 	init->pars = abstract_syntax_tree(init, &opstack);
-	// print_ast(init->pars, 0, 0);
 }

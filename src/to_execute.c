@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:55:30 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 16:37:37 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/30 20:15:02 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	exec_cmd(char *cmd, char **matrix, char **env, t_parser *stack)
 		exit (EXIT_SUCCESS);
 	}
 	waitpid(pid, &child_exit, 0);
+	signal_terz(&child_exit);
 	return (child_exit / 256);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:45:10 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 16:03:05 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/30 20:02:48 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,6 @@ void					config_right_dups(t_parser *stack);
 void					unlink_heredocs(t_init	*init);
 void					check_redir(t_parser **tok);
 void					push_redir(t_parser *to, t_parser *from);
-
+void					signal_terz(int *child_exit);
 int						g_exit_status_;
 #endif

@@ -6,13 +6,13 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:23:20 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/29 17:00:26 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:49:19 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static pid_t	child_right(t_init *init, t_parser *pars, t_env *env, int *pipes)
+pid_t	child_right(t_init *init, t_parser *pars, t_env *env, int *pipes)
 {
 	int		status;
 	pid_t	pid;

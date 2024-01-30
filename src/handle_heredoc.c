@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:46:17 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 16:51:05 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/30 21:44:24 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,41 +39,40 @@ void	push_redir(t_parser *to, t_parser *from)
 		from->flag -= (1 << 2);
 }
 
-void	pop_redir(t_parser *tok)
+void	pop_redir(t_parser **tok)
 {
 	t_parser	*tmp;
 
-	tmp = tok;
-	if (tok->prev)
+	tmp = (*tok);
+	if ((*tok)->prev)
 	{
-		tok->prev->next = tok->next;
-		tok->next->prev = tok->prev;
-		tok->next = NULL;
-		tok->prev = NULL;
+		(*tok)->prev->next = (*tok)->next;
+		(*tok)->next->prev = (*tok)->prev;
+		(*tok)->next = NULL;
+		(*tok)->prev = NULL;
 	}
 	else
 	{
-		tok = tok->next;
-		tok->prev = NULL;
+		(*tok) = (*tok)->next;
+		(*tok)->prev = NULL;
 	}
 	free(tmp->cmd);
 	free(tmp);
 }
 
-void	find_limiter(t_init *main, t_parser *stack)
+void	find_limiter(t_init *init, t_parser *stack)
 {
 	t_parser	*tmp;
 	t_parser	*cmd_l;
-
 	tmp = stack->next;
-	cmd_l = stack->prev->prev;
 	while (tmp && tmp->cmd && is_wrd(tmp) && !(tmp->flag & 1 << 1))
 	{
 		stack->cmd = ft_strjoin(stack->cmd, tmp->cmd, 1);
 		tmp = tmp->next;
-		pop_redir(tmp->prev);
+		pop_redir(&tmp->prev);
 	}
-	while (cmd_l->prev && check_tayp(cmd_l->prev->tayp) == 2)
+	cmd_l = stack->prev->prev;
+	while (cmd_l && cmd_l->prev && check_tayp(cmd_l->prev->tayp) == 2)
 		cmd_l = cmd_l->prev->prev;
 	if (cmd_l->cmd && !ft_strcmp(cmd_l->cmd, "(NULL)") \
 		&& tmp->cmd && !is_wrd(tmp))
@@ -82,9 +81,9 @@ void	find_limiter(t_init *main, t_parser *stack)
 		if_implementation(&tmp, &cmd_l);
 	if (cmd_l->cmd && !ft_strcmp(cmd_l->cmd, "(NULL)") && !cmd_l->prev)
 	{
-		main->lex = main->lex->next;
-		main->lex->flag |= 1;
-		pop_redir(cmd_l);
+		init->lex = init->lex->next;
+		init->lex->flag |= 1;
+		pop_redir(&stack->prev->prev);
 	}
 }
 

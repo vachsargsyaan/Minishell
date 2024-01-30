@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:50:18 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/27 16:17:02 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/01/30 22:13:47 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void	lex(t_init *init, char **str, t_env *env)
 		return ;
 	}
 	heredoc_valid(init, NULL);
-	if (!check_valid(init, env, &sb, 1) || sb > 0 \
-		|| !check_valid(init, env, &sb, 0))
+	if (!check_valid(init, env, &sb, 0) || sb > 0 \
+		|| !check_valid(init, env, &sb, 1))
 	{
 		if (sb > 0)
 			ft_dprintf(2, "minishell: syntax error: missing token `)'\n");
