@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:46:17 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/30 21:44:24 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:23:04 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	find_limiter(t_init *init, t_parser *stack)
 {
 	t_parser	*tmp;
 	t_parser	*cmd_l;
+
 	tmp = stack->next;
 	while (tmp && tmp->cmd && is_wrd(tmp) && !(tmp->flag & 1 << 1))
 	{

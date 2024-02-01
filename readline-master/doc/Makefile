@@ -22,7 +22,7 @@ topdir = ..
 srcdir = .
 
 
-prefix = /Users/vachesargsyan/Desktop/Minishell/vacread
+prefix = /Users/vacsargs/Desktop/Minishell/vacread
 
 datarootdir = ${prefix}/share
 
@@ -49,7 +49,7 @@ RM = rm -f
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 
-BUILD_DIR = /Users/vachesargsyan/Desktop/Minishell/readline-master
+BUILD_DIR = /Users/vacsargs/Desktop/Minishell/readline-master
 TEXINPUTDIR = $(srcdir)
 
 MAKEINFO    = LANGUAGE= makeinfo

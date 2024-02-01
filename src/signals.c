@@ -6,7 +6,7 @@
 /*   By: vacsargs <vacsargs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 16:55:02 by vacsargs          #+#    #+#             */
-/*   Updated: 2024/01/30 20:33:51 by vacsargs         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:23:57 by vacsargs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	signal_terz(int *child_exit)
 {
 	WIFEXITED(*child_exit);
 	WEXITSTATUS(*child_exit);
-	if(*child_exit == SIGQUIT)
+	if (*child_exit == SIGQUIT)
 	{
 		g_exit_status_ = 131;
 		printf("Quit3\n");
@@ -48,6 +48,8 @@ int	handler(void)
 
 void	call_signals(int sig)
 {
+	struct sigaction	sa;
+
 	if (sig == 4)
 	{
 		signal(SIGINT, sig_handler_hdoc);
@@ -55,7 +57,6 @@ void	call_signals(int sig)
 	}
 	else
 	{
-		struct sigaction	sa;
 		sa.sa_handler = &ft_irc;
 		sigemptyset(&sa.sa_mask);
 		sa.sa_flags = SA_RESTART;
@@ -75,4 +76,3 @@ void	ft_irc(int signum)
 		rl_done = 42;
 	}
 }
-
